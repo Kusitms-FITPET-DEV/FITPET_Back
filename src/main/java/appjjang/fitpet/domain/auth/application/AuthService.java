@@ -1,6 +1,5 @@
 package appjjang.fitpet.domain.auth.application;
 
-import appjjang.fitpet.domain.auth.dto.request.AuthCodeLoginRequest;
 import appjjang.fitpet.domain.auth.dto.response.KakaoTokenLoginResponse;
 import appjjang.fitpet.domain.auth.dto.response.TokenPairResponse;
 import appjjang.fitpet.domain.member.dao.MemberRepository;
@@ -19,8 +18,8 @@ public class AuthService {
     private final JwtTokenService jwtTokenService;
     private final MemberRepository memberRepository;
 
-    public TokenPairResponse socialLogin(AuthCodeLoginRequest request) {
-        KakaoTokenLoginResponse response = kakaoService.getIdToken(request.getCode());
+    public TokenPairResponse socialLogin(String code) {
+        KakaoTokenLoginResponse response = kakaoService.getIdToken(code);
         OidcUser oidcUser = idTokenVerifier.getOidcUser(response.getId_token());
         OauthInfo oauthInfo = OauthInfo.from(oidcUser, response.getRefresh_token());
 
