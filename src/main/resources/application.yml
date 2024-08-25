@@ -4,5 +4,5 @@ spring:
     group:
       local: "local"
       prod: "prod"
-  include:
-    - security
+    include:
+      - security
