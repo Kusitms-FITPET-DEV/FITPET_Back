@@ -21,4 +21,8 @@ public class RefreshToken {
         this.memberId = memberId;
         this.token = token;
     }
+
+    public void updateRefreshToken(String newToken) {
+        this.token = newToken;
+    }
 }
