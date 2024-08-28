@@ -1,5 +1,6 @@
 package appjjang.fitpet.domain.auth.application;
 
+import appjjang.fitpet.domain.auth.dao.RefreshTokenRepository;
 import appjjang.fitpet.domain.auth.dto.AccessTokenDto;
 import appjjang.fitpet.domain.auth.dto.RefreshTokenDto;
 import appjjang.fitpet.domain.auth.dto.request.TokenRefreshRequest;
@@ -10,6 +11,7 @@ import appjjang.fitpet.domain.member.domain.Member;
 import appjjang.fitpet.domain.member.domain.OauthInfo;
 import appjjang.fitpet.global.error.exception.CustomException;
 import appjjang.fitpet.global.error.exception.ErrorCode;
+import appjjang.fitpet.global.util.MemberUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,8 @@ public class AuthService {
     private final IdTokenVerifier idTokenVerifier;
     private final JwtTokenService jwtTokenService;
     private final MemberRepository memberRepository;
+    private final RefreshTokenRepository refreshTokenRepository;
+    private final MemberUtil memberUtil;
 
     public TokenPairResponse socialLogin(String code) {
         KakaoTokenLoginResponse response = kakaoService.getIdToken(code);
@@ -45,6 +49,17 @@ public class AuthService {
         AccessTokenDto accessTokenDto =
                 jwtTokenService.refreshAccessToken(getMember(newRefreshTokenDto));
         return new TokenPairResponse(accessTokenDto.getToken(), newRefreshTokenDto.getToken());
+    }
+
+    public void memberLogout() {
+        final Member currentMember = memberUtil.getCurrentMember();
+        deleteRefreshToken(currentMember);
+    }
+
+    private void deleteRefreshToken(Member currentMember) {
+        refreshTokenRepository
+                .findById(currentMember.getId())
+                .ifPresent(refreshTokenRepository::delete);
     }
 
     private Member getMember(RefreshTokenDto refreshTokenDto) {
