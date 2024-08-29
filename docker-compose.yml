@@ -1,7 +1,7 @@
 version: '3'
 services:
   app:
-    image: $${DOCKER_USERNAME}/fitpet:latest
+    image: ${{ secrets.DOCKER_USERNAME }}/fitpet:latest
     environment:
       SPRING_PROFILES_ACTIVE: prod
       PROD_MYSQL_HOST: fitpet.cb26miuuaa9v.ap-southeast-2.rds.amazonaws.com
