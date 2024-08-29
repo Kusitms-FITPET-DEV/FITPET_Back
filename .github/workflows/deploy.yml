@@ -56,13 +56,18 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
           script: |
-            # 새로운 이미지 가져오기
+#            새로운 이미지 가져오기
             docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
             docker pull ${{ secrets.DOCKER_USERNAME }}/fitpet:latest
-
+            
             # 기존 컨테이너 중지 및 제거
-            docker stop fitpet || true
-            docker rm fitpet || true
+            docker-compose -f docker-compose.prod.yml down || true
 
-            # 새로운 컨테이너 실행
-            docker run -d --name fitpet -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/fitpet:latest
+            # 최신 이미지로 Docker Compose 실행
+            docker-compose -f docker-compose.prod.yml up --build -d
+
+      # 2. EC2 서버로 `docker-compose.prod.yml` 및 `.env` 파일 복사
+      - name: Copy Files to EC2
+        run: |
+          scp -o StrictHostKeyChecking=no -i ${{ secrets.EC2_SSH_KEY }} docker-compose.prod.yml ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }}:/home/ubuntu/
+          scp -o StrictHostKeyChecking=no -i ${{ secrets.EC2_SSH_KEY }} .env ${{ secrets.EC2_USERNAME }}@${{ secrets.EC2_HOST }}:/home/ubuntu/

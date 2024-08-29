@@ -1,0 +1,18 @@
+version: '3'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env # 환경 변수는 .env 파일에서 불러옵니다.
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod # 프로파일을 prod로 설정
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
