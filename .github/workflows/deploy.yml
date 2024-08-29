@@ -89,64 +89,63 @@
 #            cd /home/ubuntu
 #            docker-compose -f docker-compose.yml up --build -d
 
-name: CI/CD Pipeline for Spring Project
+#
 
+
+name: CI/CD Pipeline for Spring Project
+# 트리거 설정: 해당 브랜치로 풀리퀘스트가 머지될 때 트리거
 on:
   push:
     branches: [ "test/#25-workflow-test" ]
-
+  # 나중에 최종으로 사용할 때
+#  pull_request:
+#    brances: [develop]
 jobs:
   build:
+    # 빌드 작업은 Ubuntu에서 실행
     runs-on: ubuntu-latest
-
     steps:
+      # 1. 소스 코드 체크아웃
       - name: Checkout code
         uses: actions/checkout@v2
-
+      # 2. JDK 설치 (Java 17 기준)
       - name: Set up JDK 17
         uses: actions/setup-java@v2
         with:
-          distribution: 'adopt'
+          distribution: 'adopt' # OpenJDK 사용
           java-version: '17'
-
+      # 3. Gradle 빌드
       - name: Build with Gradle
-        run: ./gradlew clean build -x test
-
+        run: ./gradlew clean build -x test # 테스트를 제외한 Gradle 빌드
+      # 4. Docker 이미지 빌드
       - name: Build Docker image
         run: docker build -t fitpet .
-
+      # 5. Docker Hub로 Docker 이미지 푸시 (선택적 단계)
       - name: Push Docker Image to Docker Hub
         run: |
-          echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
           docker tag fitpet:latest ${{ secrets.DOCKER_USERNAME }}/fitpet:latest
           docker push ${{ secrets.DOCKER_USERNAME }}/fitpet:latest
-
   deploy:
+    # 배포 작업은 빌드 작업이 완료된 후 실행
     runs-on: ubuntu-latest
     needs: build
+
     steps:
+      # 1. EC2 인스턴스로 SSH 접속
       - name: Deploy to EC2 via SSH
         uses: appleboy/ssh-action@v0.1.5
-        env:
-          DOCKER_IMAGE: ${{ secrets.DOCKER_USERNAME }}/fitpet:latest
-          MYSQL_PASSWORD: ${{ secrets.PROD_MYSQL_PASSWORD }}
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
-          envs: DOCKER_IMAGE,MYSQL_PASSWORD
           script: |
-            echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+            
+            docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
             docker pull ${{ secrets.DOCKER_USERNAME }}/fitpet:latest
-            cd /home/ubuntu
-            cat << EOF > .env
-            DOCKER_IMAGE=${DOCKER_IMAGE}
-            SPRING_PROFILES_ACTIVE=prod
-            PROD_MYSQL_HOST=fitpet.cb26miuuaa9v.ap-southeast-2.rds.amazonaws.com
-            PROD_MYSQL_DB_NAME=fitpet
-            PROD_MYSQL_USERNAME=admin
-            PROD_MYSQL_PASSWORD=${MYSQL_PASSWORD}
-            EOF
-            docker-compose -f docker-compose.yml up --build -d
-
+            
+            docker stop fitpet || true
+            docker rm fitpet || true
+            
+            docker run -d --name fitpet -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/fitpet:latest
