@@ -60,5 +60,4 @@ jobs:
             docker pull ${{ secrets.DOCKER_USERNAME }}/fitpet:latest
 
             cd /home/ubuntu
-
             docker-compose -f docker-compose.yml up --build -d
