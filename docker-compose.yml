@@ -7,7 +7,7 @@ services:
       PROD_MYSQL_HOST: fitpet.cb26miuuaa9v.ap-southeast-2.rds.amazonaws.com
       PROD_MYSQL_DB_NAME: fitpet
       PROD_MYSQL_USERNAME: admin
-      PROD_MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      PROD_MYSQL_PASSWORD: 12345555
     ports:
       - "8080:8080"
     networks:
