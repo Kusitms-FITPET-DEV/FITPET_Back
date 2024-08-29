@@ -7,5 +7,5 @@ COPY ${JAR_FILE} app.jar
 # spring.profiles.active를 prod로 설정
 ENV SPRING_PROFILES_ACTIVE=prod
 
-# JAR 파일을 실행
+# JAR 파일을 실행하게
 ENTRYPOINT ["java", "-jar", "/app.jar"]
