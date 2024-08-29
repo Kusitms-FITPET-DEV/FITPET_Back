@@ -132,7 +132,7 @@ jobs:
     needs: build
 
     steps:
-      # 1. EC2 인스턴스로 SSH 접속함
+      # 1. EC2 인스턴스로 SSH 접속시켜
       - name: Deploy to EC2 via SSH
         uses: appleboy/ssh-action@v0.1.5
         with:
