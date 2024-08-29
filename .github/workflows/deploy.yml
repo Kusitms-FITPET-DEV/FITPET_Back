@@ -38,8 +38,8 @@ jobs:
       - name: Push Docker Image to Docker Hub
         run: |
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-          docker tag fitpet:latest my-dockerhub-repo/fitpet:latest
-          docker push my-dockerhub-repo/fitpet:latest
+          docker tag fitpet:latest ${{ secrets.DOCKER_USERNAME }}/fitpet:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/fitpet:latest
 
   deploy:
     # 배포 작업은 빌드 작업이 완료된 후 실행
@@ -58,11 +58,11 @@ jobs:
           script: |
             # 새로운 이미지 가져오기
             docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-            docker pull my-dockerhub-repo/fitpet:latest
+            docker pull ${{ secrets.DOCKER_USERNAME }}/fitpet:latest
 
             # 기존 컨테이너 중지 및 제거
             docker stop fitpet || true
             docker rm fitpet || true
 
             # 새로운 컨테이너 실행
-            docker run -d --name fitpet -p 8080:8080 my-dockerhub-repo/fitpet:latest
+            docker run -d --name fitpet -p 8080:8080 ${{ secrets.DOCKER_USERNAME }}/fitpet:latest
