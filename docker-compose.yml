@@ -1,18 +1,19 @@
 version: '3'
 services:
   app:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: ${{ secrets.DOCKER_USERNAME }}/fitpet:latest
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      PROD_MYSQL_HOST: fitpet.cb26miuuaa9v.ap-southeast-2.rds.amazonaws.com
+      PROD_MYSQL_DB_NAME: fitpet
+      PROD_MYSQL_USERNAME: admin
+      PROD_MYSQL_PASSWORD: 12345555
     ports:
       - "8080:8080"
-    env_file:
-      - .env # 환경 변수는 .env 파일에서 불러옵니다.
-    environment:
-      - SPRING_PROFILES_ACTIVE=prod # 프로파일을 prod로 설정
     networks:
       - app-network
 
 networks:
   app-network:
     driver: bridge
+
