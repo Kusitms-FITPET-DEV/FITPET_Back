@@ -1,6 +1,8 @@
 name: CI/CD Pipeline for Spring Project
 
 # 트리거 설정: 해당 브랜치로 풀리퀘스트가 머지될 때 트리거
+
+# 현재는 테스트니까 푸쉬로
 on:
   push:
     branches: [ "test/#25-workflow-test" ]
