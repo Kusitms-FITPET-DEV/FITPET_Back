@@ -1,8 +1,6 @@
 name: CI/CD Pipeline for Spring Project
 
 # 트리거 설정: 해당 브랜치로 풀리퀘스트가 머지될 때 트리거
-
-# 현재는 테스트니까 푸쉬로
 on:
   push:
     branches: [ "test/#25-workflow-test" ]
@@ -42,54 +40,28 @@ jobs:
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
           docker tag fitpet:latest ${{ secrets.DOCKER_USERNAME }}/fitpet:latest
           docker push ${{ secrets.DOCKER_USERNAME }}/fitpet:latest
-          name: CI/CD Pipeline
 
   deploy:
     runs-on: ubuntu-latest
     needs: build
+
     steps:
       - name: Deploy to EC2 via SSH
         uses: appleboy/ssh-action@v0.1.5
-        env:
-          DOCKER_IMAGE: ${{ secrets.DOCKER_USERNAME }}/fitpet:latest
-          MYSQL_PASSWORD: ${{ secrets.PROD_MYSQL_PASSWORD }}
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
           port: 22
-          envs: DOCKER_IMAGE,MYSQL_PASSWORD
           script: |
             echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
-            docker pull ${{ secrets.DOCKER_USERNAME }}/fitpet:latest
-            cd /home/ubuntu
-            echo "DOCKER_IMAGE=${DOCKER_IMAGE}" > .env
-            echo "MYSQL_PASSWORD=${MYSQL_PASSWORD}" >> .env
-            docker-compose -f docker-compose.yml up --build -d
-
-
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-
-    steps:
-      - name: Deploy to EC2 via SSH
-        uses: appleboy/ssh-action@v0.1.5
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USERNAME }}
-          key: ${{ secrets.EC2_SSH_KEY }}
-          port: 22
-          script: |
-            echo $${{ secrets.DOCKER_PASSWORD }} | docker login -u $${{ secrets.DOCKER_USERNAME }} --password-stdin
-
-
+            
+            
             docker pull ${{ secrets.DOCKER_USERNAME }}/fitpet:latest
 
             cd /home/ubuntu
+
             docker-compose -f docker-compose.yml up --build -d
-
-
 
 
 #name: CI/CD Pipeline for Spring Project
