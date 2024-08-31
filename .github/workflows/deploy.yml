@@ -64,7 +64,7 @@ jobs:
             docker-compose -f docker-compose.yml up --build -d
 
 
-#name: CI/CD Pipeline for Spring Project
+#name: CI/CD Pipeline for Spring Project - 이거는 도커파일만 이용해서 사용한 방식
 ## 트리거 설정: 해당 브랜치로 풀리퀘스트가 머지될 때 트리거
 #on:
 #  push:
