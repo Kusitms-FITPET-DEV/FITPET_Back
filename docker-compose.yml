@@ -1,13 +1,15 @@
 version: '3'
 services:
   app:
-    image: ${DOCKER_IMAGE}
+    image: jihyun2ee/fitpet:latest
+    env_file:
+      - .env ## 이게 필수. 이게 안 되어있었음.
     environment:
-      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
-      PROD_MYSQL_HOST: ${PROD_MYSQL_HOST}
-      PROD_MYSQL_DB_NAME: ${PROD_MYSQL_DB_NAME}
-      PROD_MYSQL_USERNAME: ${PROD_MYSQL_USERNAME}
-      PROD_MYSQL_PASSWORD: ${PROD_MYSQL_PASSWORD}
+      SPRING_PROFILES_ACTIVE: prod
+      PROD_MYSQL_HOST: fitpet.cb26miuuaa9v.ap-southeast-2.rds.amazonaws.com
+      PROD_MYSQL_DB_NAME: fitpet
+      PROD_MYSQL_USERNAME: admin
+      PROD_MYSQL_PASSWORD: 12345555
     ports:
       - "8080:8080"
     networks:
