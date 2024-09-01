@@ -1,11 +1,17 @@
 package appjjang.fitpet.domain.insurance.domain;
 
+import appjjang.fitpet.domain.charge.domain.Charge;
+import appjjang.fitpet.domain.compensation.domain.Compensation;
+import appjjang.fitpet.domain.like.domain.Like;
+import appjjang.fitpet.domain.member.domain.Member;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -27,4 +33,15 @@ public class Insurance {
     private String bank;
     private String bankAccount;
     private String payCycle;
+
+    @ManyToOne
+    @JoinColumn(name = "member_id")
+    private Member member;
+
+    @OneToMany(mappedBy = "insurance", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Charge> charges = new ArrayList<>();
+
+    @OneToMany(mappedBy = "insurance",cascade = CascadeType.ALL, orphanRemoval = true )
+    private List<Compensation> compensations = new ArrayList<>();
+
 }
