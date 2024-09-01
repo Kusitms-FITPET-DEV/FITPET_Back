@@ -2,6 +2,7 @@ package appjjang.fitpet.domain.insurance.domain;
 
 import appjjang.fitpet.domain.charge.domain.Charge;
 import appjjang.fitpet.domain.compensation.domain.Compensation;
+import appjjang.fitpet.domain.coverage.domain.Coverage;
 import appjjang.fitpet.domain.like.domain.Like;
 import appjjang.fitpet.domain.member.domain.Member;
 import jakarta.persistence.*;
@@ -43,5 +44,9 @@ public class Insurance {
 
     @OneToMany(mappedBy = "insurance",cascade = CascadeType.ALL, orphanRemoval = true )
     private List<Compensation> compensations = new ArrayList<>();
+
+    @OneToOne
+    @JoinColumn(name="coverage_id")
+    private Coverage coverage;
 
 }

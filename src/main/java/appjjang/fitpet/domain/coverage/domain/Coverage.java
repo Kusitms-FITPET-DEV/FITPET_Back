@@ -1,5 +1,7 @@
-package appjjang.fitpet.domain.converage.domain;
+package appjjang.fitpet.domain.coverage.domain;
 
+import appjjang.fitpet.domain.compensation.domain.Compensation;
+import appjjang.fitpet.domain.insurance.domain.Insurance;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -7,11 +9,11 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class Converage {
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class Coverage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "converage_id")
+    @Column(name = "coverage_id")
     private Long id;
 
     private String dailyTreatLimit;
@@ -25,7 +27,8 @@ public class Converage {
     private String foreignObjectRemoval;
     private String selfBurden;
     private String compensationLiability;
-    private String furneralAid;
+    private String funeralAid;
+
 
 
 
