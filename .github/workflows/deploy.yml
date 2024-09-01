@@ -2,13 +2,9 @@ name: CI/CD Pipeline for Spring Project
 
 # 트리거 설정: 해당 브랜치로 풀리퀘스트가 머지될 때 트리거
 on:
-  push:
-    branches: [ "test/#25-workflow-test" ]
-
-  # 나중에 최종으로 사용할 때
-#  pull_request:
-#    brances: [develop]
-
+  pull_request:
+    branches:
+      - develop
 jobs:
   build:
     # 빌드 작업은 Ubuntu에서 실행
