@@ -1,7 +1,7 @@
 package appjjang.fitpet.domain.member.domain;
 
 import appjjang.fitpet.domain.journal.domain.Journal;
-import appjjang.fitpet.domain.like.domain.Like;
+import appjjang.fitpet.domain.heart.domain.Heart;
 import appjjang.fitpet.domain.insurance.domain.Insurance;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -35,7 +35,7 @@ public class Member {
     private String phone;
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Like> likes = new ArrayList<>();
+    private List<Heart> hearts = new ArrayList<>();
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Insurance> insurances = new ArrayList<>();

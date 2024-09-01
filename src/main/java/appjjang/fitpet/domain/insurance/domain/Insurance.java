@@ -3,7 +3,6 @@ package appjjang.fitpet.domain.insurance.domain;
 import appjjang.fitpet.domain.charge.domain.Charge;
 import appjjang.fitpet.domain.compensation.domain.Compensation;
 import appjjang.fitpet.domain.coverage.domain.Coverage;
-import appjjang.fitpet.domain.like.domain.Like;
 import appjjang.fitpet.domain.member.domain.Member;
 import jakarta.persistence.*;
 import lombok.AccessLevel;

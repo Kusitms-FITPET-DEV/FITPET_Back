@@ -1,15 +1,12 @@
 package appjjang.fitpet.domain.charge.domain;
 
 import appjjang.fitpet.domain.insurance.domain.Insurance;
-import appjjang.fitpet.domain.like.domain.Like;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter

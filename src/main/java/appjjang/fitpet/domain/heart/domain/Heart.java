@@ -1,4 +1,4 @@
-package appjjang.fitpet.domain.like.domain;
+package appjjang.fitpet.domain.heart.domain;
 
 import appjjang.fitpet.domain.knowledge.domain.Knowledge;
 import appjjang.fitpet.domain.member.domain.Member;
@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Like {
+public class Heart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "like_id")

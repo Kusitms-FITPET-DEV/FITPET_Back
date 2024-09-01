@@ -1,6 +1,6 @@
 package appjjang.fitpet.domain.knowledge.domain;
 
-import appjjang.fitpet.domain.like.domain.Like;
+import appjjang.fitpet.domain.heart.domain.Heart;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -24,5 +24,5 @@ public class Knowledge {
     private String imageUrl;
 
     @OneToMany(mappedBy = "knowledge", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Like> likes = new ArrayList<>();
+    private List<Heart> hearts = new ArrayList<>();
 }
