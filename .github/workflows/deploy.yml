@@ -2,7 +2,7 @@ name: CI/CD Pipeline for Spring Project
 
 # 트리거 설정: 해당 브랜치로 풀리퀘스트가 머지될 때 트리거
 on:
-  pull_request:
+  push:
     branches:
       - develop
 jobs:
