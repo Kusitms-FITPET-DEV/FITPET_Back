@@ -18,6 +18,7 @@ public class OauthInfo {
     @Enumerated(EnumType.STRING)
     private OauthProvider provider;
 
+    private String email;
     private String kakaoRefreshToken;
 
     @Builder
