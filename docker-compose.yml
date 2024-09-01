@@ -1,0 +1,21 @@
+version: '3'
+services:
+  app:
+    image: jihyun2ee/fitpet:latest
+    ## 이게 필수세요~ env_file 등록!
+    env_file:
+      - .env
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      PROD_MYSQL_HOST: ${PROD_MYSQL_HOST}
+      PROD_MYSQL_DB_NAME: ${PROD_MYSQL_DB_NAME}
+      PROD_MYSQL_USERNAME: ${PROD_MYSQL_USERNAME}
+      PROD_MYSQL_PASSWORD: ${PROD_MYSQL_PASSWORD}
+    ports:
+      - "8080:8080"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
