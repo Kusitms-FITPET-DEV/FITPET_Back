@@ -17,6 +17,7 @@ import static appjjang.fitpet.global.common.constants.PetConstants.NO_MATCHING_R
 public class DogListService {
     private final DogListRepository dogListRepository;
 
+    @Transactional(readOnly = true)
     public BreedSearchResponse searchBreed(String keyword) {
         List<String> breedList = dogListRepository.searchBreedByKeyword(keyword);
         if (breedList.isEmpty()) {
