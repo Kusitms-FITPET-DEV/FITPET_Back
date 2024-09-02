@@ -1,14 +1,18 @@
 package appjjang.fitpet.domain.pet.api;
 
 import appjjang.fitpet.domain.pet.application.PetService;
-import appjjang.fitpet.domain.pet.dto.response.PetRegisterRequest;
-import appjjang.fitpet.domain.pet.dto.response.PetUpdateRequest;
+import appjjang.fitpet.domain.pet.dto.request.PetRegisterRequest;
+import appjjang.fitpet.domain.pet.dto.request.PetUpdateRequest;
+import appjjang.fitpet.domain.pet.dto.response.SinglePetQueryResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import static appjjang.fitpet.global.common.constants.PetConstants.PRICE_RATE;
+
 
 @Tag(name = "펫 API", description = "펫 관련 API 입니다.")
 @RestController
@@ -31,5 +35,12 @@ public class PetController {
         petService.updatePet(request);
         return ResponseEntity.status(HttpStatus.OK)
                 .build();
+    }
+
+    @Operation(summary = "펫 단건 조회", description = "특정 펫의 정보 및 견적 정보를 조회합니다.")
+    @GetMapping("/{petId}")
+    public SinglePetQueryResponse getPetInfo(@PathVariable Long petId,
+                                             @RequestParam(defaultValue = PRICE_RATE) String priceRate) {
+        return petService.getPet(petId, priceRate);
     }
 }
