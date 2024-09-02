@@ -22,7 +22,6 @@ public class Pet {
     private Species species;
     private String breed;
     private int birthYear;
-    private String etc;
     private String phone;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -30,23 +29,21 @@ public class Pet {
     private Member member;
 
     @Builder
-    private Pet(String name, Species species, String breed, int birthYear, String etc, String phone, Member member) {
+    private Pet(String name, Species species, String breed, int birthYear, String phone, Member member) {
         this.name = name;
         this.species = species;
         this.breed = breed;
         this.birthYear = birthYear;
-        this.etc = etc;
         this.phone = phone;
         this.member = member;
     }
 
-    public static Pet createPet(String name, Species species, String breed, int birthYear, String etc, String phone, Member member) {
+    public static Pet createPet(String name, Species species, String breed, int birthYear, String phone, Member member) {
         Pet pet = Pet.builder()
                 .name(name)
                 .species(species)
                 .breed(breed)
                 .birthYear(birthYear)
-                .etc(etc)
                 .phone(phone)
                 .member(member)
                 .build();

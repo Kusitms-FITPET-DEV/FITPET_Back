@@ -26,7 +26,6 @@ public class PetService {
                 request.getSpecies(),
                 request.getBreed(),
                 request.getBirthYear(),
-                request.getEtc(),
                 request.getPhone(),
                 currentMember
         ));

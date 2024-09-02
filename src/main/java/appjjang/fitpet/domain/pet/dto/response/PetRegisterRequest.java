@@ -20,9 +20,6 @@ public class PetRegisterRequest {
     @Schema(description = "펫 탄생년도", example = "2001")
     private int birthYear;
 
-    @Schema(description = "비고", example = "병력이 있어요")
-    private String etc;
-
     @Schema(description = "연락처", example = "01012341234")
     private String phone;
 }
