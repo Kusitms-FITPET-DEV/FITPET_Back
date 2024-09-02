@@ -12,9 +12,9 @@ import appjjang.fitpet.domain.pet.dto.response.SinglePetQueryResponse;
 import appjjang.fitpet.global.error.exception.CustomException;
 import appjjang.fitpet.global.error.exception.ErrorCode;
 import appjjang.fitpet.global.util.MemberUtil;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -49,6 +49,7 @@ public class PetService {
         pet.updatePet(request.getPetName(), request.getSpecies(), request.getBreed(), request.getBirthYear());
     }
 
+    @Transactional(readOnly = true)
     public SinglePetQueryResponse getPet(Long petId, String priceRate) {
         validatePriceRate(priceRate);
 
