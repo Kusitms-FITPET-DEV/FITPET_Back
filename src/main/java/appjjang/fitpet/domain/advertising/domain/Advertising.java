@@ -1,4 +1,4 @@
-package appjjang.fitpet.domain.advertising;
+package appjjang.fitpet.domain.advertising.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;

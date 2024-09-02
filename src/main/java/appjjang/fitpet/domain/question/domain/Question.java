@@ -1,4 +1,4 @@
-package appjjang.fitpet.global;
+package appjjang.fitpet.domain.question.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
