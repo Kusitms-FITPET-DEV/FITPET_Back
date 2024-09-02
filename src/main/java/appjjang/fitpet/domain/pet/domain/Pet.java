@@ -53,4 +53,11 @@ public class Pet {
         member.getPets().add(pet);
         return pet;
     }
+
+    public void updatePet(String name, Species species, String breed, int birthYear) {
+        this.name = name;
+        this.species = species;
+        this.breed = breed;
+        this.birthYear = birthYear;
+    }
 }

@@ -4,6 +4,9 @@ import appjjang.fitpet.domain.member.domain.Member;
 import appjjang.fitpet.domain.pet.dao.PetRepository;
 import appjjang.fitpet.domain.pet.domain.Pet;
 import appjjang.fitpet.domain.pet.dto.response.PetRegisterRequest;
+import appjjang.fitpet.domain.pet.dto.response.PetUpdateRequest;
+import appjjang.fitpet.global.error.exception.CustomException;
+import appjjang.fitpet.global.error.exception.ErrorCode;
 import appjjang.fitpet.global.util.MemberUtil;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -27,5 +30,11 @@ public class PetService {
                 request.getPhone(),
                 currentMember
         ));
+    }
+
+    public void updatePet(PetUpdateRequest request) {
+        Pet pet = petRepository.findById(request.getId())
+                .orElseThrow(() -> new CustomException(ErrorCode.PET_NOT_FOUND));
+        pet.updatePet(request.getPetName(), request.getSpecies(), request.getBreed(), request.getBirthYear());
     }
 }
