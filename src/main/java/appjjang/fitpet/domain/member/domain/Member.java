@@ -3,6 +3,7 @@ package appjjang.fitpet.domain.member.domain;
 import appjjang.fitpet.domain.journal.domain.Journal;
 import appjjang.fitpet.domain.heart.domain.Heart;
 import appjjang.fitpet.domain.insurance.domain.Insurance;
+import appjjang.fitpet.domain.pet.domain.Pet;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -32,7 +33,8 @@ public class Member {
     @Enumerated(value = EnumType.STRING)
     private MemberRole role;
 
-    private String phone;
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Pet> pets = new ArrayList<>();
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Heart> hearts = new ArrayList<>();
