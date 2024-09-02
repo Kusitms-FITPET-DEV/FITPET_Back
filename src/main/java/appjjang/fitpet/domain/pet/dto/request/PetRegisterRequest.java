@@ -1,4 +1,4 @@
-package appjjang.fitpet.domain.pet.dto.response;
+package appjjang.fitpet.domain.pet.dto.request;
 
 import appjjang.fitpet.domain.pet.domain.Species;
 import io.swagger.v3.oas.annotations.media.Schema;
