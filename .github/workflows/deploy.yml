@@ -4,7 +4,7 @@ name: CI/CD Pipeline for Spring Project
 on:
   push:
     branches:
-      - bug/#37-kakao-deploy-env-setting
+      - develop
 jobs:
   build:
     # 빌드 작업은 Ubuntu에서 실행
