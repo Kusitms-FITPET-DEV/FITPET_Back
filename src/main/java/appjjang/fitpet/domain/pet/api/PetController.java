@@ -30,9 +30,10 @@ public class PetController {
     }
 
     @Operation(summary = "펫 수정", description = "등록된 펫의 수정을 진행합니다.")
-    @PutMapping
-    public ResponseEntity<Void> updatePet(@RequestBody PetUpdateRequest request) {
-        petService.updatePet(request);
+    @PutMapping("/{petId}")
+    public ResponseEntity<Void> updatePet(@PathVariable Long petId,
+                                          @RequestBody PetUpdateRequest request) {
+        petService.updatePet(petId, request);
         return ResponseEntity.status(HttpStatus.OK)
                 .build();
     }
@@ -42,5 +43,13 @@ public class PetController {
     public SinglePetQueryResponse getPetInfo(@PathVariable Long petId,
                                              @RequestParam(defaultValue = PRICE_RATE) String priceRate) {
         return petService.getPet(petId, priceRate);
+    }
+
+    @Operation(summary = "펫 삭제", description = "특정 펫을 삭제합니다.")
+    @DeleteMapping("/{petId}")
+    public ResponseEntity<Void> deletePet(@PathVariable Long petId) {
+        petService.deletePet(petId);
+        return ResponseEntity.status(HttpStatus.OK)
+                .build();
     }
 }
