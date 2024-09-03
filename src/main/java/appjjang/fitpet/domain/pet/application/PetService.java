@@ -43,9 +43,9 @@ public class PetService {
         ));
     }
 
-    public void updatePet(PetUpdateRequest request) {
+    public void updatePet(Long petId, PetUpdateRequest request) {
         final Member currentMember = memberUtil.getCurrentMember();
-        Pet pet = petRepository.findById(request.getId())
+        Pet pet = petRepository.findById(petId)
                 .orElseThrow(() -> new CustomException(ErrorCode.PET_NOT_FOUND));
         validatePetOwner(pet, currentMember);
         pet.updatePet(request.getPetName(), request.getSpecies(), request.getBreed(), request.getBirthYear());

@@ -30,9 +30,10 @@ public class PetController {
     }
 
     @Operation(summary = "펫 수정", description = "등록된 펫의 수정을 진행합니다.")
-    @PutMapping
-    public ResponseEntity<Void> updatePet(@RequestBody PetUpdateRequest request) {
-        petService.updatePet(request);
+    @PutMapping("/{petId}")
+    public ResponseEntity<Void> updatePet(@PathVariable Long petId,
+                                          @RequestBody PetUpdateRequest request) {
+        petService.updatePet(petId, request);
         return ResponseEntity.status(HttpStatus.OK)
                 .build();
     }

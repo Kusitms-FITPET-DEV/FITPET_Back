@@ -8,9 +8,6 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class PetUpdateRequest {
-    @Schema(description = "수정할 펫 id", example = "1")
-    private Long id;
-
     @Schema(description = "등록할 펫 이름", example = "보리")
     private String petName;
 
