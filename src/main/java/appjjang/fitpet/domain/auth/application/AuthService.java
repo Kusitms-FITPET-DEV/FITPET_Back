@@ -30,7 +30,7 @@ public class AuthService {
     public TokenPairResponse socialLogin(String code) {
         KakaoTokenLoginResponse response = kakaoService.getIdToken(code);
         OidcUser oidcUser = idTokenVerifier.getOidcUser(response.getId_token());
-        OauthInfo oauthInfo = OauthInfo.from(oidcUser, response.getRefresh_token());
+        OauthInfo oauthInfo = OauthInfo.from(oidcUser);
 
         Member member = getMemberByOidcInfo(oauthInfo);
         jwtTokenService.setAuthenticationToken(member.getId(), member.getRole());

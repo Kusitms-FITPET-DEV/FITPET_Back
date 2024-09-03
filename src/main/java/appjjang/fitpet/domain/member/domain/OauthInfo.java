@@ -19,19 +19,16 @@ public class OauthInfo {
     private OauthProvider provider;
 
     private String email;
-    private String kakaoRefreshToken;
 
     @Builder
-    public OauthInfo(String oauthId, OauthProvider provider, String kakaoRefreshToken) {
+    public OauthInfo(String oauthId, OauthProvider provider) {
         this.oauthId = oauthId;
         this.provider = provider;
-        this.kakaoRefreshToken = kakaoRefreshToken;
     }
 
-    public static OauthInfo from(OidcUser user, String kakaoRefreshToken) {
+    public static OauthInfo from(OidcUser user) {
         return OauthInfo.builder()
                 .oauthId(user.getSubject())
-                .kakaoRefreshToken(kakaoRefreshToken)
                 .provider(KAKAO)
                 .build();
     }
