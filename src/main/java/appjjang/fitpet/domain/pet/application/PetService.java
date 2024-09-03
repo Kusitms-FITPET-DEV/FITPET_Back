@@ -63,10 +63,10 @@ public class PetService {
 
         validatePetOwner(pet, currentMember);
 
-        int age = LocalDate.now().getYear() - pet.getBirthYear() + 1;
+        int age = LocalDate.now().getYear() - pet.getBirthYear();
 
         List<SingleEstimateDto> estimateList = getEstimateList(pet, priceRate, age).stream()
-                .peek(this::applyDiscountRate)
+                .peek(dto -> dto.setInsuranceFee(applyDiscountRate(dto.getInsuranceFee(), dto.getInsuranceCompany())))
                 .collect(Collectors.toList());
 
         int maxInsuranceFee = estimateList.stream()
@@ -120,16 +120,17 @@ public class PetService {
                 .collect(Collectors.toList());
     }
 
-    private void applyDiscountRate(SingleEstimateDto dto) {
-        switch (dto.getInsuranceCompany().toLowerCase()) {
-            case PETPERMINT -> dto.setInsuranceFee((int) Math.round(dto.getInsuranceFee() * PETPERMINT_DISCOUNT_RATE));
-            case SAMSUNG -> dto.setInsuranceFee((int) Math.round(dto.getInsuranceFee() * SAMSUNG_DISCOUNT_RATE));
-            case DB -> dto.setInsuranceFee((int) Math.round(dto.getInsuranceFee() * DB_DISCOUNT_RATE));
-            case HYUNDAI -> dto.setInsuranceFee((int) Math.round(dto.getInsuranceFee() * HYUNDAI_DISCOUNT_RATE));
-            case KB -> dto.setInsuranceFee((int) Math.round(dto.getInsuranceFee() * KB_DISCOUNT_RATE));
+    private int applyDiscountRate(int insuranceFee, String insuranceCompany) {
+        return switch (insuranceCompany.toLowerCase()) {
+            case PETPERMINT -> (int) Math.round(insuranceFee * PETPERMINT_DISCOUNT_RATE);
+            case SAMSUNG -> (int) Math.round(insuranceFee * SAMSUNG_DISCOUNT_RATE);
+            case DB -> (int) Math.round(insuranceFee * DB_DISCOUNT_RATE);
+            case HYUNDAI -> (int) Math.round(insuranceFee * HYUNDAI_DISCOUNT_RATE);
+            case KB -> (int) Math.round(insuranceFee * KB_DISCOUNT_RATE);
             default -> throw new CustomException(ErrorCode.INSURANCE_COMPANY_NOT_EXIST);
-        }
+        };
     }
+
 
 
     private void validatePriceRate(String priceRate) {
