@@ -43,4 +43,12 @@ public class PetController {
                                              @RequestParam(defaultValue = PRICE_RATE) String priceRate) {
         return petService.getPet(petId, priceRate);
     }
+
+    @Operation(summary = "펫 삭제", description = "특정 펫을 삭제합니다.")
+    @DeleteMapping("/{petId}")
+    public ResponseEntity<Void> deletePet(@PathVariable Long petId) {
+        petService.deletePet(petId);
+        return ResponseEntity.status(HttpStatus.OK)
+                .build();
+    }
 }

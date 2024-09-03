@@ -57,4 +57,9 @@ public class Pet {
         this.breed = breed;
         this.birthYear = birthYear;
     }
+
+    public Pet delete() {
+        this.getMember().getPets().remove(this);
+        return this;
+    }
 }

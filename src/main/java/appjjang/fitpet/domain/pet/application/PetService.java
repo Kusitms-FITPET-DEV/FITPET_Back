@@ -75,6 +75,12 @@ public class PetService {
                 minInsuranceFee, maxInsuranceFee, estimateList);
     }
 
+    public void deletePet(Long petId) {
+        Pet pet = petRepository.findById(petId)
+                .orElseThrow(() -> new CustomException(ErrorCode.PET_NOT_FOUND));
+        petRepository.delete(pet.delete());
+    }
+
     private List<SingleEstimateDto> getEstimateList(Pet pet, String priceRate, int age) {
         if (pet.getSpecies().equals(DOG)) {
             List<DogPrice> dogPriceList = petRepository.getDogPriceList(age, pet.getBreed(), UPDATE_CYCLE, SELF_BURDEN, priceRate, ONE_DAY_REWARD);
