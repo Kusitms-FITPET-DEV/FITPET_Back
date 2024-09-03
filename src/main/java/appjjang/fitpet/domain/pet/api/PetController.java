@@ -3,6 +3,7 @@ package appjjang.fitpet.domain.pet.api;
 import appjjang.fitpet.domain.pet.application.PetService;
 import appjjang.fitpet.domain.pet.dto.request.PetRegisterRequest;
 import appjjang.fitpet.domain.pet.dto.request.PetUpdateRequest;
+import appjjang.fitpet.domain.pet.dto.response.OwnPetListResponse;
 import appjjang.fitpet.domain.pet.dto.response.SinglePetQueryResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -43,6 +44,12 @@ public class PetController {
     public SinglePetQueryResponse getPetInfo(@PathVariable Long petId,
                                              @RequestParam(defaultValue = PRICE_RATE) String priceRate) {
         return petService.getPet(petId, priceRate);
+    }
+
+    @Operation(summary = "등록된 펫 모두 조회", description = "사용자에게 등록된 모든 펫을 조회합니다.")
+    @GetMapping
+    public OwnPetListResponse getPetsInfo() {
+        return petService.getPetsInfo();
     }
 
     @Operation(summary = "펫 삭제", description = "특정 펫을 삭제합니다.")

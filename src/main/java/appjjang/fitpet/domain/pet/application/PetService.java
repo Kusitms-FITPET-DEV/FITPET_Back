@@ -8,6 +8,8 @@ import appjjang.fitpet.domain.pet.domain.Pet;
 import appjjang.fitpet.domain.pet.dto.SingleEstimateDto;
 import appjjang.fitpet.domain.pet.dto.request.PetRegisterRequest;
 import appjjang.fitpet.domain.pet.dto.request.PetUpdateRequest;
+import appjjang.fitpet.domain.pet.dto.PetInfoDto;
+import appjjang.fitpet.domain.pet.dto.response.OwnPetListResponse;
 import appjjang.fitpet.domain.pet.dto.response.SinglePetQueryResponse;
 import appjjang.fitpet.global.error.exception.CustomException;
 import appjjang.fitpet.global.error.exception.ErrorCode;
@@ -79,6 +81,15 @@ public class PetService {
         return new SinglePetQueryResponse(pet.getName(), pet.getSpecies(), age, pet.getBreed(),
                 maxInsuranceFee == minInsuranceFee,
                 minInsuranceFee, maxInsuranceFee, estimateList);
+    }
+
+    @Transactional(readOnly = true)
+    public OwnPetListResponse getPetsInfo () {
+        final Member currentMember = memberUtil.getCurrentMember();
+        List<PetInfoDto> petList = currentMember.getPets().stream()
+                .map(PetInfoDto::new)
+                .collect(Collectors.toList());
+        return new OwnPetListResponse(currentMember.getPets().size(), petList);
     }
 
     public void deletePet(Long petId) {
