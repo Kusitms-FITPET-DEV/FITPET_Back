@@ -83,13 +83,14 @@ public class PetService {
                 minInsuranceFee, maxInsuranceFee, estimateList);
     }
 
-
+    @Transactional(readOnly = true)
     public OwnPetListResponse getPetsInfo () {
         final Member currentMember = memberUtil.getCurrentMember();
         List<PetInfoDto> petList = currentMember.getPets().stream()
                 .map(PetInfoDto::new)
                 .collect(Collectors.toList());
         return new OwnPetListResponse(currentMember.getPets().size(), petList);
+    }
 
     public void deletePet(Long petId) {
         final Member currentMember = memberUtil.getCurrentMember();

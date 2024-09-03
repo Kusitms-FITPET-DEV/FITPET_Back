@@ -50,6 +50,7 @@ public class PetController {
     @GetMapping
     public OwnPetListResponse getPetsInfo() {
         return petService.getPetsInfo();
+    }
 
     @Operation(summary = "펫 삭제", description = "특정 펫을 삭제합니다.")
     @DeleteMapping("/{petId}")
