@@ -44,17 +44,23 @@ public class PetService {
     }
 
     public void updatePet(PetUpdateRequest request) {
+        final Member currentMember = memberUtil.getCurrentMember();
         Pet pet = petRepository.findById(request.getId())
                 .orElseThrow(() -> new CustomException(ErrorCode.PET_NOT_FOUND));
+        validatePetOwner(pet, currentMember);
         pet.updatePet(request.getPetName(), request.getSpecies(), request.getBreed(), request.getBirthYear());
     }
 
     @Transactional(readOnly = true)
     public SinglePetQueryResponse getPet(Long petId, String priceRate) {
+        final Member currentMember = memberUtil.getCurrentMember();
         validatePriceRate(priceRate);
 
         Pet pet = petRepository.findById(petId)
                 .orElseThrow(() -> new CustomException(ErrorCode.PET_NOT_FOUND));
+
+        validatePetOwner(pet, currentMember);
+
         int age = LocalDate.now().getYear() - pet.getBirthYear() + 1;
 
         List<SingleEstimateDto> estimateList = getEstimateList(pet, priceRate, age).stream()
@@ -76,9 +82,17 @@ public class PetService {
     }
 
     public void deletePet(Long petId) {
+        final Member currentMember = memberUtil.getCurrentMember();
         Pet pet = petRepository.findById(petId)
                 .orElseThrow(() -> new CustomException(ErrorCode.PET_NOT_FOUND));
+        validatePetOwner(pet, currentMember);
         petRepository.delete(pet.delete());
+    }
+
+    private void validatePetOwner(Pet pet, Member member) {
+        if (!member.getPets().contains(pet)) {
+            throw new CustomException(ErrorCode.NOT_PET_OWNER);
+        }
     }
 
     private List<SingleEstimateDto> getEstimateList(Pet pet, String priceRate, int age) {
