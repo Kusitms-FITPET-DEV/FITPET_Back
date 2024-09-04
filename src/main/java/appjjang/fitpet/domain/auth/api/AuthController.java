@@ -20,7 +20,7 @@ public class AuthController {
     @Operation(summary = "소셜 로그인 및 회원가입", description = "카카오 소셜 로그인을 이용하여 회원가입 및 로그인을 진행합니다.")
     @PostMapping("/login")
     public TokenPairResponse memberOauthLogin(@RequestBody KakaoLoginRequest request) {
-        return authService.socialLogin(request.getCode());
+        return authService.socialLogin(request);
     }
 
     @Operation(summary = "토큰 재발급", description = "엑세스 토큰 및 리프테시 토큰을 모두 재발급합니다.")

@@ -7,6 +7,18 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class KakaoLoginRequest {
-    @Schema(description = "카카오 로그인 인증 코드")
-    private String code;
+    @Schema(description = "카카오 엑세스 토큰")
+    private String accessToken;
+
+    @Schema(description = "카카오 엑세스 토큰 만료 시간")
+    private String accessTokenExpiresAt;
+
+    @Schema(description = "카카오 리프레시 토큰")
+    private String refreshToken;
+
+    @Schema(description = "카카오 리프레시 토큰 만료 시간")
+    private String refreshTokenExpiresAt;
+
+    @Schema(description = "카카오 id 토큰")
+    private String idToken;
 }
