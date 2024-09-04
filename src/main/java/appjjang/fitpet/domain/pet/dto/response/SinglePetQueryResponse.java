@@ -23,14 +23,14 @@ public class SinglePetQueryResponse {
     @Schema(description = "조회한 펫의 견종 (고양이라면 비워집니다.)")
     private String breed;
 
-    @Schema(description = "견적이 하나만 조회되는지의 여부")
-    private boolean isSingleResult;
-
     @Schema(description = "조회되는 견적 중 제일 최대 가격")
     private int maxInsuranceFee;
 
     @Schema(description = "조회되는 견적 중 제일 최소 가격")
     private int minInsuranceFee;
+
+    @Schema(description = "조회 견적의 개수")
+    private int resultCount;
 
     @Schema(description = "조회 견적 리스트")
     private List<SingleEstimateDto> estimateList;

@@ -65,7 +65,7 @@ public class PetEstimateDetailResponse {
     @Schema(description = "장례비지원금", example = "X")
     private String funeralAid;
 
-    public PetEstimateDetailResponse(String insuranceCompany, int beforeDiscountFee, int afterDiscountFee, Coverage coverage) {
+    public PetEstimateDetailResponse(int beforeDiscountFee, int afterDiscountFee, String insuranceCompany, Coverage coverage) {
         this.insuranceCompany = insuranceCompany;
         this.beforeDiscountFee = beforeDiscountFee;
         this.afterDiscountFee = afterDiscountFee;

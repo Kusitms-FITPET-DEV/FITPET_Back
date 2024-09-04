@@ -15,6 +15,9 @@ public class SingleEstimateDto {
     @Schema(description = "보험사")
     private String insuranceCompany;
 
+    @Schema(description = "보험이름")
+    private String insuranceName;
+
     @Schema(description = "보험료")
     private int insuranceFee;
 
@@ -28,5 +31,11 @@ public class SingleEstimateDto {
         this.priceId = catPrice.getId();
         this.insuranceCompany = catPrice.getInsuranceCompany();
         this.insuranceFee = catPrice.getInsuranceFee();
+    }
+
+    public SingleEstimateDto update(String insuranceCompany, String insuranceName) {
+        this.insuranceCompany = insuranceCompany;
+        this.insuranceName = insuranceName;
+        return this;
     }
 }
