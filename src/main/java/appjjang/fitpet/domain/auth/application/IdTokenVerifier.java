@@ -51,14 +51,14 @@ public class IdTokenVerifier {
     private void validateAudience(OidcIdToken oidcIdToken) {
         String clientId = oidcIdToken.getAudience().get(0);
         if (!properties.getId().equals(clientId)) {
-            throw new CustomException(ErrorCode.ID_TOKEN_VERIFICATION_FAILED);
+            throw new CustomException(ErrorCode.AUDIENCE_VERIFICATION_FAILED);
         }
     }
 
     private void validateIssuer(OidcIdToken oidcIdToken) {
         String issuer = oidcIdToken.getIssuer().toString();
         if (!KAKAO_ISSUER.equals(issuer)) {
-            throw new CustomException(ErrorCode.ID_TOKEN_VERIFICATION_FAILED);
+            throw new CustomException(ErrorCode.ISSUER_VERIFICATION_FAILED);
         }
     }
 

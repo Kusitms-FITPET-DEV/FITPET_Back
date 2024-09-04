@@ -3,8 +3,8 @@ package appjjang.fitpet.domain.auth.application;
 import appjjang.fitpet.domain.auth.dao.RefreshTokenRepository;
 import appjjang.fitpet.domain.auth.dto.AccessTokenDto;
 import appjjang.fitpet.domain.auth.dto.RefreshTokenDto;
+import appjjang.fitpet.domain.auth.dto.request.KakaoLoginRequest;
 import appjjang.fitpet.domain.auth.dto.request.TokenRefreshRequest;
-import appjjang.fitpet.domain.auth.dto.response.KakaoTokenLoginResponse;
 import appjjang.fitpet.domain.auth.dto.response.TokenPairResponse;
 import appjjang.fitpet.domain.member.dao.MemberRepository;
 import appjjang.fitpet.domain.member.domain.Member;
@@ -27,9 +27,8 @@ public class AuthService {
     private final RefreshTokenRepository refreshTokenRepository;
     private final MemberUtil memberUtil;
 
-    public TokenPairResponse socialLogin(String code) {
-        KakaoTokenLoginResponse response = kakaoService.getIdToken(code);
-        OidcUser oidcUser = idTokenVerifier.getOidcUser(response.getId_token());
+    public TokenPairResponse socialLogin(KakaoLoginRequest request) {
+        OidcUser oidcUser = idTokenVerifier.getOidcUser(request.getIdToken());
         OauthInfo oauthInfo = OauthInfo.from(oidcUser);
 
         Member member = getMemberByOidcInfo(oauthInfo);
