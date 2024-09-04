@@ -75,6 +75,7 @@ public class PetService {
 
         List<SingleEstimateDto> estimateList = getEstimateList(pet, priceRate, age).stream()
                 .peek(dto -> dto.setInsuranceFee(applyDiscountRate(dto.getInsuranceFee(), dto.getInsuranceCompany())))
+                .map(this::updateDto)
                 .collect(Collectors.toList());
 
         int maxInsuranceFee = estimateList.stream()
@@ -86,9 +87,7 @@ public class PetService {
                 .min()
                 .orElse(NO_MIN_OR_MAX_INSURANCE_FEE);
 
-        return new SinglePetQueryResponse(pet.getName(), pet.getSpecies(), age, pet.getBreed(),
-                maxInsuranceFee == minInsuranceFee,
-                minInsuranceFee, maxInsuranceFee, estimateList);
+        return new SinglePetQueryResponse(pet.getName(), pet.getSpecies(), age, pet.getBreed(), minInsuranceFee, maxInsuranceFee, estimateList.size(), estimateList);
     }
 
     @Transactional(readOnly = true)
@@ -113,9 +112,9 @@ public class PetService {
 
         Coverage coverage = coverageRepository.findLatestByInsuranceCompany(dto.getInsuranceCompany());
         return new PetEstimateDetailResponse(
-                dto.getInsuranceCompany(),
                 dto.getInsuranceFee(),
                 applyDiscountRate(dto.getInsuranceFee(), dto.getInsuranceCompany()),
+                updateDto(dto).getInsuranceCompany(),
                 coverage
         );
     }
@@ -159,7 +158,16 @@ public class PetService {
         };
     }
 
-
+    private SingleEstimateDto updateDto(SingleEstimateDto dto) {
+        return switch (dto.getInsuranceCompany().toLowerCase()) {
+            case PETPERMINT -> dto.update(PETPERMINT_COMPANY, PETPERINT_INSURANCE);
+            case SAMSUNG -> dto.update(SAMSUNG_COMPANY, SAMSUNG_INSURANCE);
+            case DB -> dto.update(DB_COMPANY, DB_INSURANCE);
+            case HYUNDAI -> dto.update(HYUNDAI_COMPANY, HYUNDAI_INSURANCE);
+            case KB -> dto.update(KB_COMPANY, KB_INSURANCE);
+            default -> throw new CustomException(ErrorCode.MISSING_JWT_TOKEN);
+        };
+    }
 
     private void validatePriceRate(String priceRate) {
         if(!VALID_RATES.contains(priceRate)) {
