@@ -4,7 +4,6 @@ import appjjang.fitpet.global.error.exception.CustomException;
 import appjjang.fitpet.global.error.exception.ErrorCode;
 import appjjang.fitpet.infra.config.oauth.KakaoProperties;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.core.oidc.OidcIdToken;
@@ -23,7 +22,6 @@ import static appjjang.fitpet.global.common.constants.SecurityConstants.KAKAO_IS
 import static appjjang.fitpet.global.common.constants.SecurityConstants.KAKAO_JWK_SET_URL;
 
 @Component
-@Slf4j
 @RequiredArgsConstructor
 public class IdTokenVerifier {
     private final KakaoProperties properties;
@@ -53,8 +51,6 @@ public class IdTokenVerifier {
     private void validateAudience(OidcIdToken oidcIdToken) {
         String clientId = oidcIdToken.getAudience().get(0);
         if (!properties.getId().equals(clientId)) {
-            log.info("properties : " + properties.getId());
-            log.info("clientId : " + clientId);
             throw new CustomException(ErrorCode.AUDIENCE_VERIFICATION_FAILED);
         }
     }

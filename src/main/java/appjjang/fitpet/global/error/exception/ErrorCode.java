@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatus;
 @AllArgsConstructor
 public enum ErrorCode {
     SAMPLE_ERROR(HttpStatus.BAD_REQUEST, "AJ4000", "Sample Error Message"),
-    BAD_KAKAO_LOGIN_REQUEST(HttpStatus.BAD_REQUEST, "AJ4001", "카카오 로그인 과정에서 오류가 발생했습니다."),
+    BAD_KAKAO_WITHDRAWAL_REQUEST(HttpStatus.BAD_REQUEST, "AJ4001", "카카오 회원탈퇴 과정에서 오류가 발생했습니다."),
     PRICE_RATE_NOT_EXIST(HttpStatus.BAD_REQUEST, "AJ4002", "잘못된 보상 비율의 요청입니다."),
     INSURANCE_COMPANY_NOT_EXIST(HttpStatus.BAD_REQUEST, "AJ4003", "보험사가 존재하지 않습니다."),
     NOT_PET_OWNER(HttpStatus.BAD_REQUEST, "AJ4004", "해당 펫의 소유자가 아닙니다."),
