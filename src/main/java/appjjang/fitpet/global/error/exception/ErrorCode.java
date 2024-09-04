@@ -19,7 +19,8 @@ public enum ErrorCode {
     MISSING_JWT_TOKEN(HttpStatus.UNAUTHORIZED, "AJ4013", "토큰 정보가 존재하지 않습니다."),
 
     MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "AJ4040", "해당 회원을 찾을 수 없습니다."),
-    PET_NOT_FOUND(HttpStatus.NOT_FOUND, "AJ4041", "해당 펫을 찾을 수 없습니다.")
+    PET_NOT_FOUND(HttpStatus.NOT_FOUND, "AJ4041", "해당 펫을 찾을 수 없습니다."),
+    ESTIMTE_NOT_FOUND(HttpStatus.NOT_FOUND, "AJ4042", "해당 견적을 찾을 수 없습니다.")
     ;
 
     private final HttpStatus status;

@@ -4,6 +4,7 @@ import appjjang.fitpet.domain.pet.application.PetService;
 import appjjang.fitpet.domain.pet.dto.request.PetRegisterRequest;
 import appjjang.fitpet.domain.pet.dto.request.PetUpdateRequest;
 import appjjang.fitpet.domain.pet.dto.response.OwnPetListResponse;
+import appjjang.fitpet.domain.pet.dto.response.PetEstimateDetailResponse;
 import appjjang.fitpet.domain.pet.dto.response.SinglePetQueryResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -58,5 +59,12 @@ public class PetController {
         petService.deletePet(petId);
         return ResponseEntity.status(HttpStatus.OK)
                 .build();
+    }
+
+    @Operation(summary = "견적 조회", description = "특정 견적에 대하여 자세하게 조회합니다.")
+    @GetMapping("/{petId}/{priceId}")
+    public PetEstimateDetailResponse getEstimateDetail(@PathVariable Long petId,
+                                                       @PathVariable Long priceId) {
+        return petService.getEstimateDetail(petId, priceId);
     }
 }

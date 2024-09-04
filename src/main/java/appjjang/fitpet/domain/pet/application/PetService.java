@@ -1,6 +1,10 @@
 package appjjang.fitpet.domain.pet.application;
 
+import appjjang.fitpet.domain.catprice.dao.CatPriceRepository;
 import appjjang.fitpet.domain.catprice.domain.CatPrice;
+import appjjang.fitpet.domain.coverage.dao.CoverageRepository;
+import appjjang.fitpet.domain.coverage.domain.Coverage;
+import appjjang.fitpet.domain.dogprice.dao.DogPriceRepository;
 import appjjang.fitpet.domain.dogprice.domain.DogPrice;
 import appjjang.fitpet.domain.member.domain.Member;
 import appjjang.fitpet.domain.pet.dao.PetRepository;
@@ -10,6 +14,7 @@ import appjjang.fitpet.domain.pet.dto.request.PetRegisterRequest;
 import appjjang.fitpet.domain.pet.dto.request.PetUpdateRequest;
 import appjjang.fitpet.domain.pet.dto.PetInfoDto;
 import appjjang.fitpet.domain.pet.dto.response.OwnPetListResponse;
+import appjjang.fitpet.domain.pet.dto.response.PetEstimateDetailResponse;
 import appjjang.fitpet.domain.pet.dto.response.SinglePetQueryResponse;
 import appjjang.fitpet.global.error.exception.CustomException;
 import appjjang.fitpet.global.error.exception.ErrorCode;
@@ -32,6 +37,9 @@ import static appjjang.fitpet.global.common.values.PetValues.*;
 public class PetService {
     private final PetRepository petRepository;
     private final MemberUtil memberUtil;
+    private final DogPriceRepository dogPriceRepository;
+    private final CatPriceRepository catPriceRepository;
+    private final CoverageRepository coverageRepository;
 
     public void savePet(PetRegisterRequest request) {
         final Member currentMember =  memberUtil.getCurrentMember();
@@ -90,6 +98,26 @@ public class PetService {
                 .map(PetInfoDto::new)
                 .collect(Collectors.toList());
         return new OwnPetListResponse(currentMember.getPets().size(), petList);
+    }
+
+    @Transactional(readOnly = true)
+    public PetEstimateDetailResponse getEstimateDetail(Long petId, Long priceId) {
+        Member currentMember = memberUtil.getCurrentMember();
+        Pet pet = petRepository.findById(petId)
+                .orElseThrow(() -> new CustomException(ErrorCode.PET_NOT_FOUND));
+        validatePetOwner(pet, currentMember);
+
+        SingleEstimateDto dto = pet.getSpecies().equals(DOG) ?
+                new SingleEstimateDto(dogPriceRepository.findById(priceId).orElseThrow(() -> new CustomException(ErrorCode.ESTIMTE_NOT_FOUND))) :
+                new SingleEstimateDto(catPriceRepository.findById(priceId).orElseThrow(() -> new CustomException(ErrorCode.ESTIMTE_NOT_FOUND)));
+
+        Coverage coverage = coverageRepository.findLatestByInsuranceCompany(dto.getInsuranceCompany());
+        return new PetEstimateDetailResponse(
+                dto.getInsuranceCompany(),
+                dto.getInsuranceFee(),
+                applyDiscountRate(dto.getInsuranceFee(), dto.getInsuranceCompany()),
+                coverage
+        );
     }
 
     public void deletePet(Long petId) {
