@@ -9,6 +9,7 @@ spring:
     password: ${PROD_MYSQL_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
+    # 이 부분을 해줘야, mysql 워크벤치에 업데이트 됨!
   jpa:
     hibernate:
       ddl-auto: update
@@ -16,3 +17,16 @@ spring:
       hibernate:
         format_sql: true
         dialect: org.hibernate.dialect.MySQLDialect
+
+  cloud:
+    aws:
+      s3:
+        bucket: fitpet-image-bucket
+      region:
+        static: ap-southeast-2
+        auto: false
+      stack:
+        auto: false
+      credentials:
+        access-key: ${S3_ACCESS_KEY}
+        secret-key: ${S3_SECRET_KEY}
