@@ -8,6 +8,9 @@ import appjjang.fitpet.domain.insurance.dao.InsuranceRepository;
 import appjjang.fitpet.domain.insurance.domain.Insurance;
 import appjjang.fitpet.domain.pet.dao.PetRepository;
 import appjjang.fitpet.domain.pet.dao.PetRepositoryCustom;
+import appjjang.fitpet.domain.pet.domain.Pet;
+import appjjang.fitpet.global.error.exception.CustomException;
+import appjjang.fitpet.global.error.exception.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -19,21 +22,19 @@ import java.time.LocalTime;
 @RequiredArgsConstructor
 @Transactional
 public class AdminService {
-    @Qualifier("petRepositoryImpl")
-    private final PetRepositoryCustom petRepositoryCustom;
+    private final PetRepository petRepository;
     private final InsuranceRepository insuranceRepository;
     private final CoverageRepository coverageRepository;
 
     public Insurance joinInsurance(AdminInsuranceRequest request){
-        Long petId = request.getPetId();
-        String petName = petRepositoryCustom.getPetNameById(petId);
-        String insuranceCompany = request.getInsuranceCompany();
-        Coverage coverage = coverageRepository.findLatestByInsuranceCompany(insuranceCompany);
-        Long coverageId = coverage.getId();
+        Pet pet = petRepository.findById(request.getPetId())
+                .orElseThrow(() -> new CustomException(ErrorCode.PET_NOT_FOUND));
+
+        Coverage coverage = coverageRepository.findLatestByInsuranceCompany(request.getInsuranceCompany());
 
         Insurance insurance = Insurance.createInsurance(
                 request.getContractor(),
-                petName,
+                pet.getName(),
                 request.getStartDate(),
                 request.getEndDate(),
                 request.getUpdateCycle(),
@@ -43,11 +44,13 @@ public class AdminService {
                 request.getBank(),
                 request.getBankAccount(),
                 request.getPayCycle(),
-                coverageId
+                coverage,
+                pet
         );
 
         Insurance savedInsurance = insuranceRepository.save(insurance);
 
+        pet.updateIsInsurance();
         // Step 5: 저장된 객체 반환
         return savedInsurance;
     }

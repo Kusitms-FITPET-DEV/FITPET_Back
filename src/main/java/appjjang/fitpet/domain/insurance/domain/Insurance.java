@@ -37,9 +37,18 @@ public class Insurance {
     private String bankAccount;
     private String payCycle;
 
+    @OneToOne
+    @JoinColumn(name="coverage_id")
+    private Coverage coverage;
+
+    // coverageId 필드 추가
+    @Column(name = "coverage_id", insertable = false, updatable = false)
+    private Long coverageId;
+
+
     @Builder
     private Insurance(String contractor, String insurant, LocalDate startDate, LocalDate endDate,
-                      String updateCycle, int insuranceFee, String priceRate, String payWay, String bank, String bankAccount, String payCycle, Long coverageId){
+                      String updateCycle, int insuranceFee, String priceRate, String payWay, String bank, String bankAccount, String payCycle, Coverage coverage, Pet pet){
         this.contractor = contractor;
         this.insurant = insurant;
         this.startDate = startDate;
@@ -51,10 +60,12 @@ public class Insurance {
         this.bank = bank;
         this.bankAccount = bankAccount;
         this.payCycle = payCycle;
+        this.coverage = coverage;
+        this.pet = pet;
     }
 
     public static Insurance createInsurance(String contractor, String insurant,LocalDate startDate,LocalDate endDate,
-                                            String updateCycle,int insuranceFee, String priceRate, String payWay, String bank,String bankAccount, String payCycle,Long coverageId){
+                                            String updateCycle,int insuranceFee, String priceRate, String payWay, String bank,String bankAccount, String payCycle,Coverage coverage, Pet pet){
         Insurance insurance = Insurance.builder()
                 .contractor(contractor)
                 .insurant(insurant)
@@ -67,7 +78,8 @@ public class Insurance {
                 .bank(bank)
                 .bankAccount(bankAccount)
                 .payCycle(payCycle)
-                .coverageId(coverageId)
+                .coverage(coverage)
+                .pet(pet)
                 .build();
         return insurance;
     }
@@ -82,8 +94,6 @@ public class Insurance {
     @OneToMany(mappedBy = "insurance",cascade = CascadeType.ALL, orphanRemoval = true )
     private List<Compensation> compensations = new ArrayList<>();
 
-    @OneToOne
-    @JoinColumn(name="coverage_id")
-    private Coverage coverage;
+
 
 }
