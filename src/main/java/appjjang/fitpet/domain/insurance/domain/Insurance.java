@@ -3,7 +3,6 @@ package appjjang.fitpet.domain.insurance.domain;
 import appjjang.fitpet.domain.charge.domain.Charge;
 import appjjang.fitpet.domain.compensation.domain.Compensation;
 import appjjang.fitpet.domain.coverage.domain.Coverage;
-import appjjang.fitpet.domain.member.domain.Member;
 import appjjang.fitpet.domain.pet.domain.Pet;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -12,7 +11,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
