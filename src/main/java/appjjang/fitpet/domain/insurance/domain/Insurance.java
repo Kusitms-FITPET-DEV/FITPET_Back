@@ -37,7 +37,7 @@ public class Insurance {
     private String bankAccount;
     private String payCycle;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name="coverage_id")
     private Coverage coverage;
 
