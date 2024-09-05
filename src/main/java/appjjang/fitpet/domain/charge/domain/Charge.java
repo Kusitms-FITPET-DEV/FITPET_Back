@@ -1,5 +1,6 @@
 package appjjang.fitpet.domain.charge.domain;
 
+import appjjang.fitpet.domain.compensation.domain.Compensation;
 import appjjang.fitpet.domain.insurance.domain.Insurance;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -8,7 +9,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 
 @Entity
 @Getter
@@ -31,6 +31,9 @@ public class Charge {
     @ManyToOne
     @JoinColumn(name = "insurance_id")
     private Insurance insurance;
+
+    @OneToOne(mappedBy = "charge", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Compensation compensation;
 
     @Builder
     private Charge(String type, LocalDate visitTime, Authentication authentication,
@@ -61,5 +64,9 @@ public class Charge {
                 .build();
         insurance.getCharges().add(charge);
         return charge;
+    }
+
+    public void updateCompensation(Compensation compensation) {
+        this.compensation = compensation;
     }
 }
