@@ -5,6 +5,7 @@ import appjjang.fitpet.domain.doglist.domain.DogList;
 import appjjang.fitpet.domain.dogprice.domain.DogPrice;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collections;
@@ -13,10 +14,14 @@ import java.util.List;
 import static appjjang.fitpet.domain.catprice.domain.QCatPrice.catPrice;
 import static appjjang.fitpet.domain.doglist.domain.QDogList.dogList;
 import static appjjang.fitpet.domain.dogprice.domain.QDogPrice.dogPrice;
+import static appjjang.fitpet.domain.pet.domain.QPet.pet;
 import static appjjang.fitpet.global.common.constants.PetConstants.*;
+import static com.querydsl.jpa.JPAExpressions.selectFrom;
+import static org.hibernate.query.results.Builders.fetch;
 
 @Repository
 @RequiredArgsConstructor
+@Primary
 public class PetRepositoryImpl implements PetRepositoryCustom{
     private final JPAQueryFactory queryFactory;
 
@@ -93,5 +98,14 @@ public class PetRepositoryImpl implements PetRepositoryCustom{
                         .and(catPrice.priceRate.eq(priceRate))
                         .and(catPrice.oneDayReward.eq(oneDayReward)))
                 .fetch();
+    }
+
+    @Override
+    public String getPetNameById(Long petId){
+        return queryFactory
+                .select(pet.name)  // Pet의 name 필드를 선택
+                .from(pet)
+                .where(pet.id.eq(petId))  // petId와 일치하는 Pet 객체를 조회
+                .fetchOne();  // 단일 결과 반환
     }
 }

@@ -1,11 +1,15 @@
 package appjjang.fitpet.domain.pet.domain;
 
+import appjjang.fitpet.domain.insurance.domain.Insurance;
 import appjjang.fitpet.domain.member.domain.Member;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -27,6 +31,9 @@ public class Pet {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
+
+    @OneToOne(mappedBy = "pet", cascade = CascadeType.ALL)
+    private Insurance insurance;
 
     @Builder
     private Pet(String name, Species species, String breed, int birthYear, String phone, Member member) {
@@ -62,4 +69,5 @@ public class Pet {
         this.getMember().getPets().remove(this);
         return this;
     }
+
 }

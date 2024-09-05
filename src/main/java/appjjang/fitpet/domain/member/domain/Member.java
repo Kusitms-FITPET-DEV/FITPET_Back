@@ -40,9 +40,6 @@ public class Member {
     private List<Heart> hearts = new ArrayList<>();
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Insurance> insurances = new ArrayList<>();
-
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Journal> journals = new ArrayList<>();
 
     @Builder
