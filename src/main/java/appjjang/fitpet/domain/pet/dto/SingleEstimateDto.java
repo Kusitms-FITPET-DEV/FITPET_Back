@@ -3,11 +3,13 @@ package appjjang.fitpet.domain.pet.dto;
 import appjjang.fitpet.domain.catprice.domain.CatPrice;
 import appjjang.fitpet.domain.dogprice.domain.DogPrice;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@AllArgsConstructor
 public class SingleEstimateDto {
     @Schema(description = "견적 id")
     private Long priceId;

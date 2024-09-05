@@ -11,6 +11,9 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 public class SinglePetQueryResponse {
+    @Schema(description = "펫에 대한 보험이 체결되었는지의 여부")
+    private boolean isInsurance;
+
     @Schema(description = "조회한 펫의 이름")
     private String name;
 
