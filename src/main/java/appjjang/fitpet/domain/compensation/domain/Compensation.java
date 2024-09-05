@@ -1,6 +1,8 @@
 package appjjang.fitpet.domain.compensation.domain;
 
 import appjjang.fitpet.domain.charge.domain.Charge;
+import appjjang.fitpet.global.error.exception.CustomException;
+import appjjang.fitpet.global.error.exception.ErrorCode;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -45,5 +47,24 @@ public class Compensation {
                 .requestDate(LocalDate.now())
                 .charge(charge)
                 .build();
+    }
+
+    public Progress updateProgress(Progress progress, String chargePerson, int insuranceFee) {
+        switch (progress) {
+            case REGISTER:
+                this.progress = Progress.ASSIGN;
+                this.chargePerson = chargePerson;
+                this.receiveFee = insuranceFee;
+                break;
+            case ASSIGN:
+                this.progress = Progress.JUDGE;
+                break;
+            case JUDGE:
+                this.progress = Progress.COMPLETE;
+                break;
+            default:
+                throw new CustomException(ErrorCode.CAN_NOT_CHANGE_PROGRESS);
+        }
+        return this.progress;
     }
 }
