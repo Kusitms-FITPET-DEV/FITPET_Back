@@ -50,4 +50,8 @@ public class History {
                 .compensation(compensation)
                 .build();
     }
+
+    public void updateConfirmed() {
+        this.confirmed = true;
+    }
 }

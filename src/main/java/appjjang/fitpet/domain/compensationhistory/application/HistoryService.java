@@ -41,4 +41,10 @@ public class HistoryService {
                 .map(HistoryResponse::new)
                 .collect(Collectors.toList());
     }
+
+    public void changeHistoryStatus(Long historyId) {
+        History history = historyRepository.findById(historyId)
+                .orElseThrow(() -> new CustomException(ErrorCode.HISTORY_NOT_FOUND));
+        history.updateConfirmed();
+    }
 }
