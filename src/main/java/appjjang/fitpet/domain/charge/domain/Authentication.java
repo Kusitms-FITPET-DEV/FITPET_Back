@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class Authentication {
-    private String authenticationId;
 
     private String receiptUrl;
     private String medicalExpensesUrl;

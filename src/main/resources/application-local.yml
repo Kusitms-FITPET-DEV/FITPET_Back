@@ -16,3 +16,21 @@ spring:
       hibernate:
         format_sql: true
         dialect: org.hibernate.dialect.MySQLDialect
+
+    servlet:
+      multipart:
+        max-file-size: 80MB
+        max-request-size: 80MB
+
+  cloud:
+    aws:
+      s3:
+        bucket: fitpet-image-bucket
+      region:
+        static: ap-southeast-2
+        auto: false
+      stack:
+        auto: false
+      credentials:
+        access-key: ${S3_ACCESS_KEY}
+        secret-key: ${S3_SECRET_KEY}
