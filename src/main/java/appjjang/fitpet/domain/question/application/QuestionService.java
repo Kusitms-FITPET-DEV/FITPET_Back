@@ -22,6 +22,7 @@ public class QuestionService {
         questionRepository.save(Question.createQuestion(request.getType(), request.getTitle(), request.getAnswer()));
     }
 
+    @Transactional(readOnly = true)
     public FaqQueryResponse getQuestionList(String keyword) {
         List<String> types = questionRepository.findDistinctTypes();
         List<FaqDto> dtoList = questionRepository.findQuestionByType(keyword).stream()
