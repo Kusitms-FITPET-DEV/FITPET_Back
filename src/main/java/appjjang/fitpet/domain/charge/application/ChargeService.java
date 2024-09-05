@@ -59,7 +59,8 @@ public class ChargeService {
                 request.getBank(),
                 request.getAccount(),
                 notice,
-                agree
+                agree,
+                insurance
         ));
     }
     public Map<String, String> uploadDocuments(MultipartFile receipt, MultipartFile medicalExpenses, MultipartFile etc) {

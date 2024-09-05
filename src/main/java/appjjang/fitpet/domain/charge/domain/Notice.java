@@ -9,8 +9,6 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class Notice {
-    private String noticeId;
-
     private String message;
     private String email;
     private String phone;

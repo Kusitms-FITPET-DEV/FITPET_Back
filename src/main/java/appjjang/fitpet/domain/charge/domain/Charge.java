@@ -34,7 +34,7 @@ public class Charge {
 
     @Builder
     private Charge(String type, LocalDate visitTime, Authentication authentication,
-                   String accountHolder, String bank, String account, Notice notice, Agree agree){
+                   String accountHolder, String bank, String account, Notice notice, Agree agree, Insurance insurance){
         this.type = type;
         this.visitTime = visitTime;
         this.authentication = authentication;
@@ -43,10 +43,11 @@ public class Charge {
         this.account = account;
         this.notice = notice;
         this.agree = agree;
+        this.insurance = insurance;
     }
 
     public static Charge createCharge(String type, LocalDate visitTime, Authentication authentication,
-                                      String accountHolder, String bank, String account, Notice notice, Agree agree){
+                                      String accountHolder, String bank, String account, Notice notice, Agree agree, Insurance insurance){
         Charge charge = Charge.builder()
                 .type(type)
                 .visitTime(visitTime)
@@ -56,7 +57,9 @@ public class Charge {
                 .account(account)
                 .notice(notice)
                 .agree(agree)
+                .insurance(insurance)
                 .build();
+        insurance.getCharges().add(charge);
         return charge;
     }
 }
