@@ -7,10 +7,6 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.util.ArrayList;
-import java.util.List;
-
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -74,7 +70,8 @@ public class Pet {
         return this;
     }
 
-    public void updateIsInsurance(){
+    public void updateIsInsurance(Insurance insurance){
+        this.insurance = insurance;
         this.isInsurance = true;
     }
 }
