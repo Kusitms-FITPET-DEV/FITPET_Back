@@ -89,5 +89,23 @@ public class AdminController {
         return ResponseEntity.status(HttpStatus.OK)
                 .build();
     }
+
+    @Operation(summary = "퀴즈 삭제")
+    @DeleteMapping("/quiz/{quizId}")
+    public void deleteQuiz(@PathVariable Long quizId) {
+        quizService.deleteQuiz(quizId);
+    }
+
+    @Operation(summary = "FAQ 삭제")
+    @DeleteMapping("/question/{quizId}")
+    public void deleteQuestion(@PathVariable Long questionId) {
+        questionService.deleteQuestion(questionId);
+    }
+
+    @Operation(summary = "배너 삭제")
+    @DeleteMapping("/banner/{bannerId}")
+    public void deleteBanner(@PathVariable Long bannerId) {
+        bannerService.deleteBanner(bannerId);
+    }
 }
 
