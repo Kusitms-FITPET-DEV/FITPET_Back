@@ -69,7 +69,9 @@ public class ChargeService {
         Map<String, String> urls = new HashMap<>();
         urls.put("receiptUrl", receiptUrl);
         urls.put("medicalExpensesUrl", medicalExpensesUrl);
-        urls.put("etcUrl", etcUrl);
+        if (etcUrl != null) {
+            urls.put("etcUrl", etcUrl);
+        }
 
         return urls;
     }
