@@ -11,7 +11,7 @@ public class JournalListDto {
 
     public JournalListDto(Journal journal) {
         this.imageUrl = journal.getJournalImages().get(0).getImageUrl();
-        this.insuranceCompany = journal.getInsuranceName();
+        this.insuranceCompany = journal.getInsuranceCompany();
         this.shortContent = journal.getContent();
     }
 
