@@ -1,6 +1,5 @@
 package appjjang.fitpet.domain.question.domain;
 
-import appjjang.fitpet.domain.question.api.Type;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;

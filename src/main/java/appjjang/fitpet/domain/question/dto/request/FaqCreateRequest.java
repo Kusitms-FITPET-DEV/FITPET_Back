@@ -1,6 +1,6 @@
 package appjjang.fitpet.domain.question.dto.request;
 
-import appjjang.fitpet.domain.question.api.Type;
+import appjjang.fitpet.domain.question.domain.Type;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
