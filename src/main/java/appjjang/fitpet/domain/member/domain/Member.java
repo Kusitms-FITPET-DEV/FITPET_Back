@@ -39,9 +39,6 @@ public class Member {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Heart> hearts = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Journal> journals = new ArrayList<>();
-
     @Builder
     private Member(
             OauthInfo oauthInfo,

@@ -8,18 +8,26 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
 public class JournalImage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "journal_image_id")
     private Long id;
 
-    private String imgaeUrl;
+    private String imageUrl;
 
     @ManyToOne
     @JoinColumn(name = "journal_id")
     private Journal journal;
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public void setJournal(Journal journal) {
+        this.journal = journal;
+    }
 
 
 }
