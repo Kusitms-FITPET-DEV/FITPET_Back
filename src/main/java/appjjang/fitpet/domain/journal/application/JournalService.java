@@ -1,5 +1,6 @@
 package appjjang.fitpet.domain.journal.application;
 
+import appjjang.fitpet.domain.home.dto.JournalListDto;
 import appjjang.fitpet.domain.journal.dao.JournalRepository;
 import appjjang.fitpet.domain.journal.domain.Journal;
 import appjjang.fitpet.domain.journal.dto.request.JournalCreateRequest;
@@ -102,4 +103,15 @@ public class JournalService {
         }
     }
 
+
+    public List<JournalListDto> getJournalListDto() {
+        return journalRepository.findAll().stream()
+                .map(journal -> new JournalListDto(journal))
+                .peek(journalListDto -> journalListDto.updateJournalContent(getFirst100Chars(journalListDto.getShortContent())))
+                .collect(Collectors.toList());
+    }
+
+    private String getFirst100Chars(String input) {
+        return input.length() <= 100 ? input : input.substring(0, 100);
+    }
 }

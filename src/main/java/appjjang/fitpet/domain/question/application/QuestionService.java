@@ -1,5 +1,6 @@
 package appjjang.fitpet.domain.question.application;
 
+import appjjang.fitpet.domain.home.dto.QuestionDto;
 import appjjang.fitpet.domain.question.dto.response.FaqResponse;
 import appjjang.fitpet.domain.question.domain.Type;
 import appjjang.fitpet.domain.question.dao.QuestionRepository;
@@ -27,5 +28,11 @@ public class QuestionService {
         return questionRepository.findQuestionByType(keyword).stream()
                 .map(FaqResponse::new)
                 .collect(Collectors.toList());
+    }
+
+    public QuestionDto getQuestionTitleList() {
+        return new QuestionDto(questionRepository.findTop4ByOrderByIdDesc().stream()
+                .map(Question::getTitle)
+                .collect(Collectors.toList()));
     }
 }
