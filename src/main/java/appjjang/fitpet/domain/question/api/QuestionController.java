@@ -1,6 +1,7 @@
 package appjjang.fitpet.domain.question.api;
 
 import appjjang.fitpet.domain.question.application.QuestionService;
+import appjjang.fitpet.domain.question.domain.Type;
 import appjjang.fitpet.domain.question.dto.response.FaqResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

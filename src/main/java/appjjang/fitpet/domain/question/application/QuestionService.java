@@ -1,7 +1,7 @@
 package appjjang.fitpet.domain.question.application;
 
 import appjjang.fitpet.domain.question.dto.response.FaqResponse;
-import appjjang.fitpet.domain.question.api.Type;
+import appjjang.fitpet.domain.question.domain.Type;
 import appjjang.fitpet.domain.question.dao.QuestionRepository;
 import appjjang.fitpet.domain.question.domain.Question;
 import appjjang.fitpet.domain.question.dto.request.FaqCreateRequest;
