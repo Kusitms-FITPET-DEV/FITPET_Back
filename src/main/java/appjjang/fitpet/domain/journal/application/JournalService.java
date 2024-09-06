@@ -3,6 +3,7 @@ package appjjang.fitpet.domain.journal.application;
 import appjjang.fitpet.domain.journal.dao.JournalRepository;
 import appjjang.fitpet.domain.journal.domain.Journal;
 import appjjang.fitpet.domain.journal.dto.request.JournalCreateRequest;
+import appjjang.fitpet.domain.journal.dto.response.JournalResponse;
 import appjjang.fitpet.domain.journalimage.dao.JournalImageRepository;
 import appjjang.fitpet.domain.journalimage.domain.JournalImage;
 import com.amazonaws.services.s3.AmazonS3;
@@ -28,8 +29,27 @@ public class JournalService {
     private final JournalImageRepository journalImageRepository;
     private final AmazonS3 amazonS3;
 
-    public List<Journal> journalLog() {
-        return journalRepository.findAll();  // 모든 Journal 데이터를 조회하여 반환
+    public List<JournalResponse> journalLog() {
+        // 모든 Journal 데이터를 조회하고 각 Journal에 해당하는 이미지를 포함하여 JournalResponse로 변환
+        return journalRepository.findAll().stream()
+                .map(this::convertToJournalResponse)
+                .collect(Collectors.toList());
+    }
+    private JournalResponse convertToJournalResponse(Journal journal) {
+        // Journal 데이터를 JournalResponse로 변환
+        List<String> imageUrls = journal.getJournalImages().stream()
+                .map(JournalImage::getImageUrl)
+                .collect(Collectors.toList());
+
+        return JournalResponse.builder()
+                .insuranceCompany(journal.getInsuranceCompany())
+                .insuranceName(journal.getInsuranceName())
+                .profileUrl(journal.getProfileUrl())
+                .nickname(journal.getNickname())
+                .content(journal.getContent())
+                .date(journal.getDate())
+                .imageUrls(imageUrls)
+                .build();
     }
 
     public void addJournal(JournalCreateRequest request, List<MultipartFile> imageFiles) {
