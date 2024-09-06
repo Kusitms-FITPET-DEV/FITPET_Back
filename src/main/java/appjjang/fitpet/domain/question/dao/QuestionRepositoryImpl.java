@@ -1,5 +1,6 @@
 package appjjang.fitpet.domain.question.dao;
 
+import appjjang.fitpet.domain.question.api.Type;
 import appjjang.fitpet.domain.question.domain.Question;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -16,16 +17,7 @@ public class QuestionRepositoryImpl implements QuestionRepositoryCustom{
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<String> findDistinctTypes() {
-        return queryFactory
-                .select(question.type)
-                .distinct()
-                .from(question)
-                .fetch();
-    }
-
-    @Override
-    public List<Question> findQuestionByType(String keyword) {
+    public List<Question> findQuestionByType(Type keyword) {
         BooleanBuilder builder = new BooleanBuilder();
         if (keyword != null) {
             builder.and(question.type.eq(keyword));

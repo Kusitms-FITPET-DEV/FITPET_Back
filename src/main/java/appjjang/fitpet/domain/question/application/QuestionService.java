@@ -1,10 +1,10 @@
 package appjjang.fitpet.domain.question.application;
 
-import appjjang.fitpet.domain.question.FaqDto;
+import appjjang.fitpet.domain.question.dto.response.FaqResponse;
+import appjjang.fitpet.domain.question.api.Type;
 import appjjang.fitpet.domain.question.dao.QuestionRepository;
 import appjjang.fitpet.domain.question.domain.Question;
 import appjjang.fitpet.domain.question.dto.request.FaqCreateRequest;
-import appjjang.fitpet.domain.question.dto.response.FaqQueryResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,11 +23,9 @@ public class QuestionService {
     }
 
     @Transactional(readOnly = true)
-    public FaqQueryResponse getQuestionList(String keyword) {
-        List<String> types = questionRepository.findDistinctTypes();
-        List<FaqDto> dtoList = questionRepository.findQuestionByType(keyword).stream()
-                .map(FaqDto::new)
+    public List<FaqResponse> getQuestionList(Type keyword) {
+        return questionRepository.findQuestionByType(keyword).stream()
+                .map(FaqResponse::new)
                 .collect(Collectors.toList());
-        return new FaqQueryResponse(types.size(), types, dtoList.size(), dtoList);
     }
 }
