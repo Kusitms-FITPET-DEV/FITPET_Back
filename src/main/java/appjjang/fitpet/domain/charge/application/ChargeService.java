@@ -6,6 +6,7 @@ import appjjang.fitpet.domain.charge.domain.Authentication;
 import appjjang.fitpet.domain.charge.domain.Charge;
 import appjjang.fitpet.domain.charge.domain.Notice;
 import appjjang.fitpet.domain.charge.dto.request.InsuranceChargeRequest;
+import appjjang.fitpet.domain.compensation.domain.Compensation;
 import appjjang.fitpet.domain.insurance.domain.Insurance;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
@@ -14,19 +15,12 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-
-import static appjjang.fitpet.domain.charge.domain.QAgree.agree;
-import static appjjang.fitpet.domain.charge.domain.QNotice.notice;
-import static appjjang.fitpet.domain.insurance.domain.QInsurance.insurance;
-import static org.springframework.security.oauth2.client.web.reactive.function.client.ServletOAuth2AuthorizedClientExchangeFilterFunction.authentication;
 
 @Service
 @RequiredArgsConstructor
@@ -51,7 +45,7 @@ public class ChargeService {
                 .optionalAgree(request.getOptionalAgree())
                 .build();
 
-        chargeRepository.save(Charge.createCharge(
+        Charge charge = Charge.createCharge(
                 request.getType(),
                 request.getVisitTime(),
                 authentication,
@@ -61,7 +55,11 @@ public class ChargeService {
                 notice,
                 agree,
                 insurance
-        ));
+        );
+        Compensation compensation = Compensation.createCompensation(charge);
+        charge.updateCompensation(compensation);
+
+        chargeRepository.save(charge);
     }
     public Map<String, String> uploadDocuments(MultipartFile receipt, MultipartFile medicalExpenses, MultipartFile etc) {
         String receiptUrl = uploadFileToS3(receipt);
@@ -71,7 +69,9 @@ public class ChargeService {
         Map<String, String> urls = new HashMap<>();
         urls.put("receiptUrl", receiptUrl);
         urls.put("medicalExpensesUrl", medicalExpensesUrl);
-        urls.put("etcUrl", etcUrl);
+        if (etcUrl != null) {
+            urls.put("etcUrl", etcUrl);
+        }
 
         return urls;
     }

@@ -45,7 +45,7 @@ public class ChargeController {
     public ResponseEntity<Map<String, String>> uploadDocuments(
             @RequestPart("receipt") MultipartFile receipt,
             @RequestPart("medicalExpenses") MultipartFile medicalExpenses,
-            @RequestPart("etc") MultipartFile etc) {
+            @RequestPart(value = "etc", required = false) MultipartFile etc) {
 
         Map<String, String> urls = chargeService.uploadDocuments(receipt, medicalExpenses, etc);
         return ResponseEntity.status(HttpStatus.CREATED)

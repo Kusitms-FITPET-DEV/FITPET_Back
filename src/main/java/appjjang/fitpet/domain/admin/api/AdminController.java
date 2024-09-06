@@ -2,8 +2,13 @@ package appjjang.fitpet.domain.admin.api;
 
 import appjjang.fitpet.domain.admin.application.AdminService;
 import appjjang.fitpet.domain.admin.dto.request.AdminInsuranceRequest;
+
 import appjjang.fitpet.domain.journal.application.JournalService;
 import appjjang.fitpet.domain.journal.dto.request.JournalCreateRequest;
+
+import appjjang.fitpet.domain.admin.dto.request.HistoryUpdateRequest;
+import appjjang.fitpet.domain.compensationhistory.application.HistoryService;
+
 import appjjang.fitpet.domain.question.application.QuestionService;
 import appjjang.fitpet.domain.question.dto.request.FaqCreateRequest;
 import io.swagger.v3.oas.annotations.Operation;
@@ -15,11 +20,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+
+import org.springframework.web.bind.annotation.*;
+
 
 @Tag(name = "admin API", description = "관리자 API 입니다.")
 @RestController
@@ -28,7 +37,11 @@ import java.util.List;
 public class AdminController {
     private final AdminService adminservice;
     private final QuestionService questionService;
+
     private final JournalService journalService;
+
+    private final HistoryService historyService;
+
 
     @Operation(summary = "admin으로 체결된 보험 등록", description = "MY펫등록을 진행합니다.")
     @PostMapping("/insurance")
@@ -45,6 +58,7 @@ public class AdminController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .build();
     }
+
     @Operation(summary = "병원일지 생성", description = "관리자가 병원일지를 생성합니다.")
     @PostMapping(value = "/journals", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<Void> addJournal(
@@ -54,3 +68,15 @@ public class AdminController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }
+
+
+    @Operation(summary = "보상내역 업데이트", description = "관리자가 보상내역을 업데이트합니다.")
+    @PostMapping("/history/{compensationId}")
+    public ResponseEntity<Void> updateCompensation(@PathVariable Long compensationId,
+                                                   @RequestBody HistoryUpdateRequest request) {
+        historyService.updateCompensation(compensationId, request);
+        return ResponseEntity.status(HttpStatus.OK)
+                .build();
+    }
+}
+
