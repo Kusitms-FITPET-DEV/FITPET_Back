@@ -21,7 +21,8 @@ public enum ErrorCode {
 
     MEMBER_NOT_FOUND(HttpStatus.NOT_FOUND, "AJ4040", "해당 회원을 찾을 수 없습니다."),
     PET_NOT_FOUND(HttpStatus.NOT_FOUND, "AJ4041", "해당 펫을 찾을 수 없습니다."),
-    ESTIMTE_NOT_FOUND(HttpStatus.NOT_FOUND, "AJ4042", "해당 견적을 찾을 수 없습니다.")
+    ESTIMTE_NOT_FOUND(HttpStatus.NOT_FOUND, "AJ4042", "해당 견적을 찾을 수 없습니다."),
+    INSURANCE_NOT_FOUND(HttpStatus.NOT_FOUND, "AJ4043", "해당 펫의 보험을 찾을 수 없습니다.")
     ;
 
     private final HttpStatus status;
