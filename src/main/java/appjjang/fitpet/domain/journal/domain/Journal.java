@@ -25,7 +25,10 @@ public class Journal {
     private String insuranceName;
     private String profileUrl;
     private String nickname;
+
+    @Column(length = 1000)
     private String content;
+
     private LocalDate date;
 
     @Builder
