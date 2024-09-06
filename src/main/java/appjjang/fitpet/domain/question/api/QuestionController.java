@@ -1,12 +1,14 @@
 package appjjang.fitpet.domain.question.api;
 
 import appjjang.fitpet.domain.question.application.QuestionService;
-import appjjang.fitpet.domain.question.dto.response.FaqQueryResponse;
+import appjjang.fitpet.domain.question.dto.response.FaqResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Tag(name = "FAQ API", description = "FAQ 관련 API입니다.")
 @RestController
@@ -17,7 +19,7 @@ public class QuestionController {
 
     @Operation(summary = "FAQ 조회", description = "모든 FAQ를 조회합니다.")
     @GetMapping
-    public FaqQueryResponse addQuestion(@RequestParam(required = false) String keyword) {
+    public List<FaqResponse> addQuestion(@RequestParam(required = false) Type keyword) {
         return questionService.getQuestionList(keyword);
     }
 }

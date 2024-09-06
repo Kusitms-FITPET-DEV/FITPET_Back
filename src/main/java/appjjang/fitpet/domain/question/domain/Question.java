@@ -1,5 +1,6 @@
 package appjjang.fitpet.domain.question.domain;
 
+import appjjang.fitpet.domain.question.api.Type;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -15,20 +16,21 @@ public class Question {
     @Column(name = "question_id")
     private Long id;
 
-    private String type;
+    @Enumerated(EnumType.STRING)
+    private Type type;
     private String title;
 
     @Column(length = 2000)
     private String answer;
 
     @Builder
-    private Question(String type, String title, String answer) {
+    private Question(Type type, String title, String answer) {
         this.type = type;
         this.title = title;
         this.answer = answer;
     }
 
-    public static Question createQuestion(String type, String title, String answer) {
+    public static Question createQuestion(Type type, String title, String answer) {
         return Question.builder()
                 .type(type)
                 .title(title)
