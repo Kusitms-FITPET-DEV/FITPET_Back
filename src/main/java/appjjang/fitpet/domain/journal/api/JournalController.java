@@ -2,10 +2,12 @@ package appjjang.fitpet.domain.journal.api;
 
 import appjjang.fitpet.domain.journal.application.JournalService;
 import appjjang.fitpet.domain.journal.domain.Journal;
+import appjjang.fitpet.domain.journal.dto.response.JournalMoreResponse;
 import appjjang.fitpet.domain.journal.dto.response.JournalResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,4 +26,12 @@ public class JournalController {
 
         return journalService.journalLog();// 클라이언트에게 데이터 반환
     }
+
+    @Operation(summary = "병원 일지 자세히 보기", description = "내용을 더 자세하게 보여줍니다")
+    @GetMapping(value = "/more/{journalId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<JournalMoreResponse> getJournalDetail(@PathVariable Long journalId) {
+        JournalMoreResponse journalMoreResponse = journalService.getJournalDetails(journalId);
+        return ResponseEntity.ok(journalMoreResponse);
+    }
+
 }

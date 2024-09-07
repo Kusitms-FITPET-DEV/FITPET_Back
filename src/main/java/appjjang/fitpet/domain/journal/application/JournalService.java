@@ -3,6 +3,7 @@ package appjjang.fitpet.domain.journal.application;
 import appjjang.fitpet.domain.journal.dao.JournalRepository;
 import appjjang.fitpet.domain.journal.domain.Journal;
 import appjjang.fitpet.domain.journal.dto.request.JournalCreateRequest;
+import appjjang.fitpet.domain.journal.dto.response.JournalMoreResponse;
 import appjjang.fitpet.domain.journal.dto.response.JournalResponse;
 import appjjang.fitpet.domain.journalimage.dao.JournalImageRepository;
 import appjjang.fitpet.domain.journalimage.domain.JournalImage;
@@ -42,6 +43,7 @@ public class JournalService {
                 .collect(Collectors.toList());
 
         return JournalResponse.builder()
+                .journalId(journal.getId())
                 .insuranceCompany(journal.getInsuranceCompany())
                 .insuranceName(journal.getInsuranceName())
                 .profileUrl(journal.getProfileUrl())
@@ -100,6 +102,23 @@ public class JournalService {
         } catch (IOException e) {
             throw new RuntimeException("S3 file upload failed", e);
         }
+    }
+
+    public JournalMoreResponse getJournalDetails(Long journalId) {
+        Journal journal = journalRepository.findById(journalId)
+                .orElseThrow(() -> new RuntimeException("Journal not found"));
+
+        List<String> imageUrls = journalImageRepository.findByJournalId(journalId).stream()
+                .map(JournalImage::getImageUrl)
+                .collect(Collectors.toList());
+
+        return JournalMoreResponse.builder()
+                .insuranceCompany(journal.getInsuranceCompany())
+                .insuranceName(journal.getInsuranceName())
+                .nickname(journal.getNickname())
+                .content(journal.getContent())
+                .imageUrls(imageUrls)
+                .build();
     }
 
 }
