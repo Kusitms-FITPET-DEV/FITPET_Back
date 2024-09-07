@@ -123,6 +123,7 @@ public class PetService {
                 dto.getInsuranceFee(),
                 applyDiscountRate(dto.getInsuranceFee(), dto.getInsuranceCompany()),
                 updateDto(dto).getInsuranceCompany(),
+                dto.getInsuranceName(),
                 coverage
         );
     }

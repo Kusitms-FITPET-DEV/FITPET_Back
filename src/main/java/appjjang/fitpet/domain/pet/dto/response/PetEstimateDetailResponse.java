@@ -11,8 +11,11 @@ import java.util.stream.Collectors;
 
 @Getter
 public class PetEstimateDetailResponse {
-    @Schema(description = "해당 견적의 보험사", example = "petpermint")
+    @Schema(description = "해당 견적의 보험사", example = "메리츠")
     private String insuranceCompany;
+
+    @Schema(description = "해당 견적의 보험 이름", example = "펫퍼민트")
+    private String insuranceName;
 
     @Schema(description = "해당 견적의 보험료 할인 사항", example = "[\"동물등록우대 할인 2%\", \"다펫 할인 5%\"]")
     private List<String> discountList;
@@ -65,8 +68,9 @@ public class PetEstimateDetailResponse {
     @Schema(description = "장례비지원금", example = "X")
     private String funeralAid;
 
-    public PetEstimateDetailResponse(int beforeDiscountFee, int afterDiscountFee, String insuranceCompany, Coverage coverage) {
+    public PetEstimateDetailResponse(int beforeDiscountFee, int afterDiscountFee, String insuranceCompany, String insuranceName, Coverage coverage) {
         this.insuranceCompany = insuranceCompany;
+        this.insuranceName = insuranceName;
         this.beforeDiscountFee = beforeDiscountFee;
         this.afterDiscountFee = afterDiscountFee;
         this.dailyTreatLimit = coverage.getDailyTreatLimit();
