@@ -1,23 +1,16 @@
 package appjjang.fitpet.domain.journal.dto.response;
 
-import appjjang.fitpet.domain.journal.domain.Journal;
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
-import java.time.LocalDate;
 import java.util.List;
-
 @Getter
 @Builder
-public class JournalResponse {
-    private Long journalId;
+public class JournalMoreResponse {
     private String insuranceCompany;
     private String insuranceName;
-    private String profileUrl;
     private String nickname;
     private String content;
-    private LocalDate date;
     private List<String> imageUrls;
-
-
-
 }

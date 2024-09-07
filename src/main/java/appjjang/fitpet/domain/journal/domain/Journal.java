@@ -27,7 +27,9 @@ public class Journal {
     private String nickname;
 
     @Column(length = 2000)
+
     private String content;
+
     private LocalDate date;
 
     @Builder

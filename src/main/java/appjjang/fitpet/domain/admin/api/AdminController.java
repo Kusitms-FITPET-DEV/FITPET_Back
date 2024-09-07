@@ -42,7 +42,7 @@ public class AdminController {
 
     @Operation(summary = "admin으로 체결된 보험 등록", description = "MY펫등록을 진행합니다.")
     @PostMapping("/insurance")
-    public ResponseEntity<Void> registerInsurance(@RequestBody AdminInsuranceRequest request){
+    public ResponseEntity<Void> registerInsurance(@RequestBody AdminInsuranceRequest request) {
         adminservice.joinInsurance(request);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .build();
@@ -108,4 +108,3 @@ public class AdminController {
         bannerService.deleteBanner(bannerId);
     }
 }
-
