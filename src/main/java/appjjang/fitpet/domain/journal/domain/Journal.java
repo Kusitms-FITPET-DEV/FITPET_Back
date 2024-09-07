@@ -26,7 +26,8 @@ public class Journal {
     private String profileUrl;
     private String nickname;
 
-    @Column(length = 1000)
+    @Column(length = 2000)
+
     private String content;
 
     private LocalDate date;
