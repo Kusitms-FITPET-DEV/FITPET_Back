@@ -95,7 +95,7 @@ public class PetService {
                 .min()
                 .orElse(NO_MIN_OR_MAX_INSURANCE_FEE);
 
-        return new SinglePetQueryResponse(pet.isInsurance(), pet.getName(), pet.getSpecies(), age, pet.getBreed(), minInsuranceFee, maxInsuranceFee, estimateList.size(), estimateList);
+        return new SinglePetQueryResponse(pet.isInsurance(), pet.getName(), pet.getSpecies(), age, pet.getBreed(), maxInsuranceFee, minInsuranceFee, estimateList.size(), estimateList);
     }
 
     @Transactional(readOnly = true)
