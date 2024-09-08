@@ -15,6 +15,9 @@ public class PetInfoDto {
     @Schema(description = "조회한 펫의 이름", example = "보리")
     private String name;
 
+    @Schema(description = "조회한 펫의 출생년도", example = "2023")
+    private int birthYear;
+
     @Schema(description = "조회한 펫의 나이", example = "2")
     private int age;
 
@@ -27,6 +30,7 @@ public class PetInfoDto {
     public PetInfoDto(Pet pet) {
         this.petId = pet.getId();
         this.name = pet.getName();
+        this.birthYear = pet.getBirthYear();
         this.age = LocalDate.now().getYear() - pet.getBirthYear();
         this.species = pet.getSpecies();
         this.breed = pet.getBreed();
