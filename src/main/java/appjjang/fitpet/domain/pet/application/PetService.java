@@ -78,7 +78,7 @@ public class PetService {
             Coverage coverage = pet.getInsurance().getCoverage();
             List<SingleEstimateDto> estimateDtoList = new ArrayList<>();
             estimateDtoList.add(updateDto(new SingleEstimateDto(0L, coverage.getInsuranceCompany(), null, pet.getInsurance().getInsuranceFee())));
-            return new SinglePetQueryResponse(pet.isInsurance(), pet.getName(), pet.getSpecies(), age, pet.getBreed(), NO_MIN_OR_MAX_INSURANCE_FEE, NO_MIN_OR_MAX_INSURANCE_FEE, estimateDtoList.size(), estimateDtoList);
+            return new SinglePetQueryResponse(pet.isInsurance(), pet.getName(), pet.getSpecies(), pet.getBirthYear(), age, pet.getBreed(), NO_MIN_OR_MAX_INSURANCE_FEE, NO_MIN_OR_MAX_INSURANCE_FEE, estimateDtoList.size(), estimateDtoList);
         }
 
         List<SingleEstimateDto> estimateList = getEstimateList(pet, priceRate, age).stream()
@@ -95,7 +95,7 @@ public class PetService {
                 .min()
                 .orElse(NO_MIN_OR_MAX_INSURANCE_FEE);
 
-        return new SinglePetQueryResponse(pet.isInsurance(), pet.getName(), pet.getSpecies(), age, pet.getBreed(), maxInsuranceFee, minInsuranceFee, estimateList.size(), estimateList);
+        return new SinglePetQueryResponse(pet.isInsurance(), pet.getName(), pet.getSpecies(), pet.getBirthYear(), age, pet.getBreed(), maxInsuranceFee, minInsuranceFee, estimateList.size(), estimateList);
     }
 
     @Transactional(readOnly = true)

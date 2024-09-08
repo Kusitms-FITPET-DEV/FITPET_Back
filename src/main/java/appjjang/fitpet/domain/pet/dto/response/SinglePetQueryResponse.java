@@ -20,6 +20,9 @@ public class SinglePetQueryResponse {
     @Schema(description = "조회한 펫의 종")
     private Species species;
 
+    @Schema(description = "조회한 펫의 출생년도")
+    private int birthYear;
+
     @Schema(description = "조회한 펫의 나이")
     private int age;
 
